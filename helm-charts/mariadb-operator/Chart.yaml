@@ -1,0 +1,15 @@
+apiVersion: v2
+name: mariadb-operator
+description: Run and operate MariaDB in a cloud native way
+home: https://github.com/mmontes11/mariadb-operator
+type: application
+version: 0.6.2
+appVersion: "v0.0.6"
+maintainers:
+  - name: mmontes11
+    email: martin11lrx@gmail.com
+keywords:
+  - "mariadb"
+  - "operator"
+  - "mariadb-operator"
+  - "database"

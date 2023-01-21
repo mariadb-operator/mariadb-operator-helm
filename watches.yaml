@@ -1,0 +1,10 @@
+# Use the 'create api' subcommand to add watches to this file.
+- group: helm.mariadb.mmontes.io
+  version: v1alpha1
+  kind: MariadbOperator
+  chart: helm-charts/mariadb-operator
+  watchDependentResources: false
+  overrideValues:
+    'webhook.annotations.helm\.sh/hook': "pre-install"
+    'webhook.certificate.default.annotations.helm\.sh/hook': "pre-install"
+#+kubebuilder:scaffold:watch

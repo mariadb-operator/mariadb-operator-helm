@@ -1,0 +1,63 @@
+apiVersion: helm.mariadb.mmontes.io/v1alpha1
+kind: MariadbOperator
+metadata:
+  name: mariadb-operator
+  labels:
+    testLabel: foo
+  annotations:
+    helm.sdk.operatorframework.io/upgrade-force: "true"
+spec:
+  # Default values copied from <project_dir>/helm-charts/mariadb-operator/values.yaml
+  affinity: {}
+  clusterName: cluster.local
+  fullnameOverride: ""
+  ha:
+    enabled: false
+    leaseId: mariadb.mmontes.io
+    replicas: 3
+  image:
+    pullPolicy: IfNotPresent
+    repository: mmontes11/mariadb-operator
+    tag: ""
+  logLevel: INFO
+  metrics:
+    enabled: false
+    serviceMonitor:
+      additionalLabels: {}
+      enabled: true
+      interval: 30s
+      scrapeTimeout: 25s
+  nameOverride: ""
+  nodeSelector: {}
+  podAnnotations: {}
+  podSecurityContext: {}
+  resources: {}
+  securityContext: {}
+  tolerations: []
+  webhook:
+    affinity: {}
+    certificate:
+      certManager: false
+      default:
+        annotations: {}
+        caExpirationDays: 365
+        certExpirationDays: 365
+      path: /tmp/k8s-webhook-server/serving-certs
+    enabled: true
+    hostNetwork: false
+    image:
+      pullPolicy: IfNotPresent
+      repository: mmontes11/mariadb-operator
+      tag: ""
+    nodeSelector: {}
+    podAnnotations: {}
+    podSecurityContext: {}
+    port: 10250
+    resources: {}
+    securityContext: {}
+    serviceMonitor:
+      additionalLabels: {}
+      enabled: true
+      interval: 30s
+      scrapeTimeout: 25s
+    tolerations: []

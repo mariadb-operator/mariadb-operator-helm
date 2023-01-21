@@ -1,0 +1,27 @@
+# permissions for end users to view mariadboperators.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: clusterrole
+    app.kubernetes.io/instance: mariadboperator-viewer-role
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: helm-operator
+    app.kubernetes.io/part-of: helm-operator
+    app.kubernetes.io/managed-by: kustomize
+  name: mariadboperator-viewer-role
+rules:
+- apiGroups:
+  - helm.mariadb.mmontes.io
+  resources:
+  - mariadboperators
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - helm.mariadb.mmontes.io
+  resources:
+  - mariadboperators/status
+  verbs:
+  - get
