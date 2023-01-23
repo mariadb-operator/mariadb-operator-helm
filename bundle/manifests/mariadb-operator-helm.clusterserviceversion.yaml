@@ -1,0 +1,49 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  annotations:
+    alm-examples: '[]'
+    capabilities: Basic Install
+    createdAt: "2023-01-23T20:51:44Z"
+    operators.operatorframework.io/builder: operator-sdk-v1.26.0
+    operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
+  name: mariadb-operator-helm.v0.6.2
+  namespace: placeholder
+spec:
+  apiservicedefinitions: {}
+  customresourcedefinitions: {}
+  description: Run and operate MariaDB in a cloud native way
+  displayName: mariadb-operator
+  icon:
+  - base64data: ""
+    mediatype: ""
+  install:
+    spec:
+      deployments: []
+    strategy: deployment
+  installModes:
+  - supported: false
+    type: OwnNamespace
+  - supported: false
+    type: SingleNamespace
+  - supported: false
+    type: MultiNamespace
+  - supported: true
+    type: AllNamespaces
+  keywords:
+  - mariadb
+  - database
+  - sql
+  - mariadb-operator
+  - statefulset
+  links:
+  - name: Mariadb Operator Helm
+    url: https://mariadb-operator-helm.domain
+  maintainers:
+  - email: martin11lrx@gmail.com
+    name: mmontes11
+  maturity: alpha
+  provider:
+    name: mmontes11
+    url: https://github.com/mmontes11/mariadb-operator
+  version: 0.6.2
