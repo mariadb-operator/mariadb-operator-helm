@@ -2,16 +2,99 @@ apiVersion: operators.coreos.com/v1alpha1
 kind: ClusterServiceVersion
 metadata:
   annotations:
-    alm-examples: '[]'
+    alm-examples: |-
+      [
+        {
+          "apiVersion": "helm.mariadb.mmontes.io/v1alpha1",
+          "kind": "MariadbOperator",
+          "metadata": {
+            "annotations": {
+              "helm.sdk.operatorframework.io/upgrade-force": "true"
+            },
+            "labels": {
+              "testLabel": "foo"
+            },
+            "name": "mariadb-operator"
+          },
+          "spec": {
+            "affinity": {},
+            "clusterName": "cluster.local",
+            "fullnameOverride": "",
+            "ha": {
+              "enabled": false,
+              "leaseId": "mariadb.mmontes.io",
+              "replicas": 3
+            },
+            "image": {
+              "pullPolicy": "IfNotPresent",
+              "repository": "mmontes11/mariadb-operator",
+              "tag": ""
+            },
+            "logLevel": "INFO",
+            "metrics": {
+              "enabled": false,
+              "serviceMonitor": {
+                "additionalLabels": {},
+                "enabled": true,
+                "interval": "30s",
+                "scrapeTimeout": "25s"
+              }
+            },
+            "nameOverride": "",
+            "nodeSelector": {},
+            "podAnnotations": {},
+            "podSecurityContext": {},
+            "resources": {},
+            "securityContext": {},
+            "tolerations": [],
+            "webhook": {
+              "affinity": {},
+              "certificate": {
+                "certManager": false,
+                "default": {
+                  "annotations": {},
+                  "caExpirationDays": 365,
+                  "certExpirationDays": 365
+                },
+                "path": "/tmp/k8s-webhook-server/serving-certs"
+              },
+              "enabled": true,
+              "hostNetwork": false,
+              "image": {
+                "pullPolicy": "IfNotPresent",
+                "repository": "mmontes11/mariadb-operator",
+                "tag": ""
+              },
+              "nodeSelector": {},
+              "podAnnotations": {},
+              "podSecurityContext": {},
+              "port": 10250,
+              "resources": {},
+              "securityContext": {},
+              "serviceMonitor": {
+                "additionalLabels": {},
+                "enabled": true,
+                "interval": "30s",
+                "scrapeTimeout": "25s"
+              },
+              "tolerations": []
+            }
+          }
+        }
+      ]
     capabilities: Basic Install
-    createdAt: "2023-01-23T20:51:44Z"
+    createdAt: "2023-01-24T18:20:23Z"
     operators.operatorframework.io/builder: operator-sdk-v1.26.0
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
   name: mariadb-operator-helm.v0.6.2
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
-  customresourcedefinitions: {}
+  customresourcedefinitions:
+    owned:
+    - kind: MariadbOperator
+      name: mariadboperators.helm.mariadb.mmontes.io
+      version: v1alpha1
   description: Run and operate MariaDB in a cloud native way
   displayName: mariadb-operator
   icon:
@@ -19,7 +102,230 @@ spec:
     mediatype: ""
   install:
     spec:
-      deployments: []
+      clusterPermissions:
+      - rules:
+        - apiGroups:
+          - ""
+          resources:
+          - namespaces
+          verbs:
+          - get
+        - apiGroups:
+          - ""
+          resources:
+          - secrets
+          verbs:
+          - '*'
+        - apiGroups:
+          - ""
+          resources:
+          - events
+          verbs:
+          - create
+        - apiGroups:
+          - helm.mariadb.mmontes.io
+          resources:
+          - mariadboperators
+          - mariadboperators/status
+          - mariadboperators/finalizers
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - rbac.authorization.k8s.io
+          resources:
+          - clusterrolebindings
+          - clusterroles
+          verbs:
+          - '*'
+        - apiGroups:
+          - admissionregistration.k8s.io
+          resources:
+          - validatingwebhookconfigurations
+          verbs:
+          - '*'
+        - apiGroups:
+          - rbac.authorization.k8s.io
+          resources:
+          - rolebindings
+          - roles
+          verbs:
+          - '*'
+        - apiGroups:
+          - apps
+          resources:
+          - deployments
+          verbs:
+          - '*'
+        - apiGroups:
+          - ""
+          resources:
+          - serviceaccounts
+          - services
+          verbs:
+          - '*'
+        - apiGroups:
+          - apiextensions.k8s.io
+          resources:
+          - customresourcedefinitions
+          verbs:
+          - '*'
+        - apiGroups:
+          - cert-manager.io
+          resources:
+          - certificates
+          verbs:
+          - '*'
+        - apiGroups:
+          - authentication.k8s.io
+          resources:
+          - tokenreviews
+          verbs:
+          - create
+        - apiGroups:
+          - authorization.k8s.io
+          resources:
+          - subjectaccessreviews
+          verbs:
+          - create
+        serviceAccountName: mariadb-operator-helm-controller-manager
+      deployments:
+      - label:
+          app.kubernetes.io/component: manager
+          app.kubernetes.io/created-by: helm-operator
+          app.kubernetes.io/instance: controller-manager
+          app.kubernetes.io/managed-by: kustomize
+          app.kubernetes.io/name: deployment
+          app.kubernetes.io/part-of: helm-operator
+          control-plane: controller-manager
+        name: mariadb-operator-helm-controller-manager
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              control-plane: controller-manager
+          strategy: {}
+          template:
+            metadata:
+              annotations:
+                kubectl.kubernetes.io/default-container: manager
+              labels:
+                control-plane: controller-manager
+            spec:
+              affinity:
+                nodeAffinity:
+                  requiredDuringSchedulingIgnoredDuringExecution:
+                    nodeSelectorTerms:
+                    - matchExpressions:
+                      - key: kubernetes.io/arch
+                        operator: In
+                        values:
+                        - amd64
+                        - arm64
+                        - ppc64le
+                        - s390x
+                      - key: kubernetes.io/os
+                        operator: In
+                        values:
+                        - linux
+              containers:
+              - args:
+                - --secure-listen-address=0.0.0.0:8443
+                - --upstream=http://127.0.0.1:8080/
+                - --logtostderr=true
+                - --v=0
+                image: gcr.io/kubebuilder/kube-rbac-proxy:v0.13.0
+                name: kube-rbac-proxy
+                ports:
+                - containerPort: 8443
+                  name: https
+                  protocol: TCP
+                resources:
+                  limits:
+                    cpu: 500m
+                    memory: 128Mi
+                  requests:
+                    cpu: 5m
+                    memory: 64Mi
+                securityContext:
+                  allowPrivilegeEscalation: false
+                  capabilities:
+                    drop:
+                    - ALL
+              - args:
+                - --health-probe-bind-address=:8081
+                - --metrics-bind-address=127.0.0.1:8080
+                - --leader-elect
+                - --leader-election-id=helm-operator
+                image: mmontes11/mariadb-operator-helm:latest
+                livenessProbe:
+                  httpGet:
+                    path: /healthz
+                    port: 8081
+                  initialDelaySeconds: 15
+                  periodSeconds: 20
+                name: manager
+                readinessProbe:
+                  httpGet:
+                    path: /readyz
+                    port: 8081
+                  initialDelaySeconds: 5
+                  periodSeconds: 10
+                resources:
+                  limits:
+                    cpu: 500m
+                    memory: 128Mi
+                  requests:
+                    cpu: 10m
+                    memory: 64Mi
+                securityContext:
+                  allowPrivilegeEscalation: false
+                  capabilities:
+                    drop:
+                    - ALL
+              securityContext:
+                runAsNonRoot: true
+              serviceAccountName: mariadb-operator-helm-controller-manager
+              terminationGracePeriodSeconds: 10
+      permissions:
+      - rules:
+        - apiGroups:
+          - ""
+          resources:
+          - configmaps
+          verbs:
+          - get
+          - list
+          - watch
+          - create
+          - update
+          - patch
+          - delete
+        - apiGroups:
+          - coordination.k8s.io
+          resources:
+          - leases
+          verbs:
+          - get
+          - list
+          - watch
+          - create
+          - update
+          - patch
+          - delete
+        - apiGroups:
+          - ""
+          resources:
+          - events
+          verbs:
+          - create
+          - patch
+        serviceAccountName: mariadb-operator-helm-controller-manager
     strategy: deployment
   installModes:
   - supported: false
@@ -32,10 +338,10 @@ spec:
     type: AllNamespaces
   keywords:
   - mariadb
+  - mariadb-operator
   - database
   - sql
-  - mariadb-operator
-  - statefulset
+  - helm
   links:
   - name: Mariadb Operator Helm
     url: https://mariadb-operator-helm.domain

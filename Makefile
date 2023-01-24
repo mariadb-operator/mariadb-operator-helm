@@ -50,7 +50,7 @@ endif
 IMG ?= mmontes11/mariadb-operator-helm:latest
 
 .PHONY: all
-all: docker-build
+all: help
 
 ##@ General
 
