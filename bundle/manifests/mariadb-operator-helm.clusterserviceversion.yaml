@@ -8,12 +8,6 @@ metadata:
           "apiVersion": "helm.mariadb.mmontes.io/v1alpha1",
           "kind": "MariadbOperator",
           "metadata": {
-            "annotations": {
-              "helm.sdk.operatorframework.io/upgrade-force": "true"
-            },
-            "labels": {
-              "testLabel": "foo"
-            },
             "name": "mariadb-operator"
           },
           "spec": {
@@ -83,7 +77,7 @@ metadata:
         }
       ]
     capabilities: Basic Install
-    createdAt: "2023-01-24T18:20:23Z"
+    createdAt: "2023-01-24T18:29:51Z"
     operators.operatorframework.io/builder: operator-sdk-v1.26.0
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
   name: mariadb-operator-helm.v0.6.2
@@ -179,6 +173,13 @@ spec:
           - cert-manager.io
           resources:
           - certificates
+          - issuers
+          verbs:
+          - '*'
+        - apiGroups:
+          - monitoring.coreos.com
+          resources:
+          - servicemonitors
           verbs:
           - '*'
         - apiGroups:

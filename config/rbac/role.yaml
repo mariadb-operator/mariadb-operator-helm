@@ -94,4 +94,11 @@ rules:
       - "cert-manager.io"
     resources:
       - "certificates"
+      - "issuers"
+  - verbs:
+      - "*"
+    apiGroups:
+      - monitoring.coreos.com
+    resources:
+      - servicemonitors
 #+kubebuilder:scaffold:rules
