@@ -2,10 +2,6 @@ apiVersion: helm.mariadb.mmontes.io/v1alpha1
 kind: MariadbOperator
 metadata:
   name: mariadb-operator
-  labels:
-    testLabel: foo
-  annotations:
-    helm.sdk.operatorframework.io/upgrade-force: "true"
 spec:
   # Default values copied from <project_dir>/helm-charts/mariadb-operator/values.yaml
   affinity: {}
