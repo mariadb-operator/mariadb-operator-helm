@@ -1,7 +1,7 @@
 apiVersion: mariadb.mmontes.io/v1alpha1
 kind: MariaDB
 metadata:
-  name: mariadb-from-backup
+  name: mariadb
 spec:
   rootPasswordSecretKeyRef:
     name: mariadb
@@ -30,7 +30,7 @@ spec:
 
   bootstrapFrom:
     backupRef:
-      name: backup-scheduled
+      name: backup
     physical: true
 
   resources:

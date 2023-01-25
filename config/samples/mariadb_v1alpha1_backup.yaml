@@ -1,7 +1,7 @@
 apiVersion: mariadb.mmontes.io/v1alpha1
 kind: Backup
 metadata:
-  name: backup-scheduled
+  name: backup
 spec:
   mariaDbRef:
     name: mariadb

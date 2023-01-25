@@ -12,7 +12,43 @@ metadata:
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
-  customresourcedefinitions: {}
+  customresourcedefinitions:
+    owned:
+    - description: Configures MariaDB helm chart based operator
+      displayName: MariadbOperator
+      kind: MariadbOperator
+      name: mariadboperators.helm.mariadb.mmontes.io
+      version: v1alpha1
+    - description: Provisions a MariaDB instance
+      displayName: MariaDB
+      kind: MariaDB
+      name: mariadbs.mariadb.mmontes.io
+      version: v1alpha1
+    - description: Configures a backup
+      displayName: Backup
+      kind: Backup
+      name: backups.mariadb.mmontes.io
+      version: v1alpha1
+    - description: Restores a backup
+      displayName: Restore
+      kind: Restore
+      name: restores.mariadb.mmontes.io
+      version: v1alpha1
+    - description: Defines a logical database
+      displayName: Database
+      kind: Database
+      name: databases.mariadb.mmontes.io
+      version: v1alpha1
+    - description: Grants permissions to an user in a database
+      displayName: Grant
+      kind: Grant
+      name: grants.mariadb.mmontes.io
+      version: v1alpha1
+    - description: Defines a user
+      displayName: User
+      kind: User
+      name: users.mariadb.mmontes.io
+      version: v1alpha1
   description: Run and operate MariaDB in a cloud native way
   displayName: MariaDB Operator
   icon:

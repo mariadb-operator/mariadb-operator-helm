@@ -2,6 +2,12 @@
 # used to generate the 'manifests/' directory in a bundle.
 resources:
   - bases/mariadb-operator-helm.clusterserviceversion.yaml
+  - crds/mariadb.mmontes.io_backups.yaml
+  - crds/mariadb.mmontes.io_databases.yaml
+  - crds/mariadb.mmontes.io_grants.yaml
+  - crds/mariadb.mmontes.io_mariadbs.yaml
+  - crds/mariadb.mmontes.io_restores.yaml
+  - crds/mariadb.mmontes.io_users.yaml
   - ../default
   - ../samples
   - ../scorecard

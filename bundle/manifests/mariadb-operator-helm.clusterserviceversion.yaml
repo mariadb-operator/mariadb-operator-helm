@@ -74,12 +74,196 @@ metadata:
               "tolerations": []
             }
           }
+        },
+        {
+          "apiVersion": "mariadb.mmontes.io/v1alpha1",
+          "kind": "Backup",
+          "metadata": {
+            "name": "backup"
+          },
+          "spec": {
+            "mariaDbRef": {
+              "name": "mariadb"
+            },
+            "maxRetentionDays": 30,
+            "physical": true,
+            "resources": {
+              "limits": {
+                "cpu": "300m",
+                "memory": "512Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "128Mi"
+              }
+            },
+            "schedule": {
+              "cron": "*/1 * * * *",
+              "suspend": false
+            },
+            "storage": {
+              "persistentVolumeClaim": {
+                "accessModes": [
+                  "ReadWriteOnce"
+                ],
+                "resources": {
+                  "requests": {
+                    "storage": "100Mi"
+                  }
+                },
+                "storageClassName": "standard"
+              }
+            }
+          }
+        },
+        {
+          "apiVersion": "mariadb.mmontes.io/v1alpha1",
+          "kind": "Database",
+          "metadata": {
+            "name": "database"
+          },
+          "spec": {
+            "characterSet": "utf8",
+            "collate": "utf8_general_ci",
+            "mariaDbRef": {
+              "name": "mariadb"
+            }
+          }
+        },
+        {
+          "apiVersion": "mariadb.mmontes.io/v1alpha1",
+          "kind": "Grant",
+          "metadata": {
+            "name": "grant"
+          },
+          "spec": {
+            "database": "*",
+            "grantOption": true,
+            "mariaDbRef": {
+              "name": "mariadb"
+            },
+            "privileges": [
+              "SELECT",
+              "INSERT",
+              "UPDATE"
+            ],
+            "table": "*",
+            "username": "user"
+          }
+        },
+        {
+          "apiVersion": "mariadb.mmontes.io/v1alpha1",
+          "kind": "MariaDB",
+          "metadata": {
+            "name": "mariadb"
+          },
+          "spec": {
+            "bootstrapFrom": {
+              "backupRef": {
+                "name": "backup"
+              },
+              "physical": true
+            },
+            "database": "mariadb",
+            "env": [
+              {
+                "name": "TZ",
+                "value": "SYSTEM"
+              }
+            ],
+            "envFrom": [
+              {
+                "configMapRef": {
+                  "name": "mariadb"
+                }
+              }
+            ],
+            "image": {
+              "pullPolicy": "IfNotPresent",
+              "repository": "mariadb",
+              "tag": "10.7.4"
+            },
+            "passwordSecretKeyRef": {
+              "key": "password",
+              "name": "mariadb"
+            },
+            "port": 3306,
+            "resources": {
+              "limits": {
+                "cpu": "300m",
+                "memory": "512Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "128Mi"
+              }
+            },
+            "rootPasswordSecretKeyRef": {
+              "key": "root-password",
+              "name": "mariadb"
+            },
+            "username": "mariadb",
+            "volumeClaimTemplate": {
+              "accessModes": [
+                "ReadWriteOnce"
+              ],
+              "resources": {
+                "requests": {
+                  "storage": "100Mi"
+                }
+              },
+              "storageClassName": "standard"
+            }
+          }
+        },
+        {
+          "apiVersion": "mariadb.mmontes.io/v1alpha1",
+          "kind": "Restore",
+          "metadata": {
+            "name": "restore"
+          },
+          "spec": {
+            "backupRef": {
+              "name": "backup-scheduled"
+            },
+            "fileName": "backup.2023-01-02T21:35:01Z.sql",
+            "mariaDbRef": {
+              "name": "mariadb"
+            },
+            "resources": {
+              "limits": {
+                "cpu": "300m",
+                "memory": "512Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "128Mi"
+              }
+            }
+          }
+        },
+        {
+          "apiVersion": "mariadb.mmontes.io/v1alpha1",
+          "kind": "User",
+          "metadata": {
+            "name": "user"
+          },
+          "spec": {
+            "mariaDbRef": {
+              "name": "mariadb"
+            },
+            "maxUserConnections": 20,
+            "passwordSecretKeyRef": {
+              "key": "password",
+              "name": "user"
+            }
+          }
         }
       ]
     capabilities: Deep Insights
     categories: Database
     containerImage: mmontes11/mariadb-operator:latest
-    createdAt: "2023-01-24T21:27:52Z"
+    createdAt: "2023-01-25T18:18:15Z"
     description: Run and operate MariaDB in a cloud native way
     operators.operatorframework.io/builder: operator-sdk-v1.26.0
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
@@ -90,8 +274,40 @@ spec:
   apiservicedefinitions: {}
   customresourcedefinitions:
     owned:
-    - kind: MariadbOperator
+    - description: Configures a backup
+      displayName: Backup
+      kind: Backup
+      name: backups.mariadb.mmontes.io
+      version: v1alpha1
+    - description: Defines a logical database
+      displayName: Database
+      kind: Database
+      name: databases.mariadb.mmontes.io
+      version: v1alpha1
+    - description: Grants permissions to an user in a database
+      displayName: Grant
+      kind: Grant
+      name: grants.mariadb.mmontes.io
+      version: v1alpha1
+    - description: Configures MariaDB helm chart based operator
+      displayName: MariadbOperator
+      kind: MariadbOperator
       name: mariadboperators.helm.mariadb.mmontes.io
+      version: v1alpha1
+    - description: Provisions a MariaDB instance
+      displayName: MariaDB
+      kind: MariaDB
+      name: mariadbs.mariadb.mmontes.io
+      version: v1alpha1
+    - description: Restores a backup
+      displayName: Restore
+      kind: Restore
+      name: restores.mariadb.mmontes.io
+      version: v1alpha1
+    - description: Defines a user
+      displayName: User
+      kind: User
+      name: users.mariadb.mmontes.io
       version: v1alpha1
   description: Run and operate MariaDB in a cloud native way
   displayName: MariaDB Operator
