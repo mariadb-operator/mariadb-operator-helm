@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build
-        run: make bundle
+        run: make docker-build
 
   bundle:
     name: Bundle
@@ -41,8 +41,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Validate
-        run: make bundle-validate
+      - name: Generate
+        run: make bundle
 
       - name: Build
         run: make bundle-build
