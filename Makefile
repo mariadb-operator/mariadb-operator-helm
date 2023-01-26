@@ -158,12 +158,29 @@ HELM_OPERATOR = $(shell which helm-operator)
 endif
 endif
 
+OPERATOR_SDK_RELEASE = v1.26.0
+OPERATOR_SDK = $(shell pwd)/bin/operator-sdk-$(OPERATOR_SDK_RELEASE)
+OPERATOR_SDK_DL_URL = https://github.com/operator-framework/operator-sdk/releases/download/$(OPERATOR_SDK_RELEASE)/operator-sdk_$(OS)_$(ARCH)
+operator-sdk:
+ifeq (,$(wildcard $(OPERATOR_SDK)))
+ifeq (,$(shell which $(OPERATOR_SDK) 2>/dev/null))
+	@{ \
+	set -e ;\
+	mkdir -p $(shell pwd)/bin ;\
+	curl -sL -o $(OPERATOR_SDK) $(OPERATOR_SDK_DL_URL) ;\
+	chmod +x $(OPERATOR_SDK) ;\
+	}
+else
+OPERATOR_SDK = $(shell which $(OPERATOR_SDK))
+endif
+endif
+
 .PHONY: bundle
-bundle: kustomize ## Generate bundle manifests and metadata, then validate generated files.
-	operator-sdk generate kustomize manifests -q
+bundle: operator-sdk kustomize ## Generate bundle manifests and metadata, then validate generated files.
+	$(OPERATOR_SDK) generate kustomize manifests -q
 	cd config/manager && $(KUSTOMIZE) edit set image controller=$(IMG)
-	$(KUSTOMIZE) build config/manifests | operator-sdk generate bundle $(BUNDLE_GEN_FLAGS)
-	operator-sdk bundle validate ./bundle
+	$(KUSTOMIZE) build config/manifests | $(OPERATOR_SDK) generate bundle $(BUNDLE_GEN_FLAGS)
+	$(OPERATOR_SDK)  bundle validate ./bundle
 
 .PHONY: bundle-build
 bundle-build: ## Build the bundle image.
