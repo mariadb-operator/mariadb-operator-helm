@@ -263,7 +263,7 @@ metadata:
     capabilities: Deep Insights
     categories: Database
     containerImage: mmontes11/mariadb-operator:latest
-    createdAt: "2023-01-26T19:40:00Z"
+    createdAt: "2023-01-27T18:41:01Z"
     description: Run and operate MariaDB in a cloud native way
     operators.operatorframework.io/builder: operator-sdk-v1.26.0
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
@@ -598,6 +598,7 @@ spec:
   - email: martin11lrx@gmail.com
     name: mmontes11
   maturity: alpha
+  minKubeVersion: 1.16.0
   provider:
     name: mmontes11
     url: https://github.com/mmontes11/mariadb-operator

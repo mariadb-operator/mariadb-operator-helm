@@ -8,6 +8,7 @@ on:
 
 jobs:
   detect-noop:
+    name: Detect noop
     runs-on: ubuntu-latest
     outputs:
       noop: ${{ steps.noop.outputs.should_skip }}

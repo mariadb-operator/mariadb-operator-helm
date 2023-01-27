@@ -108,6 +108,7 @@ spec:
   - email: martin11lrx@gmail.com
     name: mmontes11
   maturity: alpha
+  minKubeVersion: 1.16.0
   provider:
     name: mmontes11
     url: https://github.com/mmontes11/mariadb-operator
