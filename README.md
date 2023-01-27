@@ -4,6 +4,10 @@
 
 Install [mariadb-operator](https://github.com/mmontes11/mariadb-operator) via [OLM](https://olm.operatorframework.io/) using the [helm chart](https://artifacthub.io/packages/helm/mariadb-operator/mariadb-operator).
 
+<p align="center">
+<img src="https://mmontes11.github.io/mariadb-operator/assets/mariadb.png" alt="mariadb" width="250"/>
+</p>
+
 This is the Operator SDK version of `mariadb-operator`. It provides a 1:1 mapping between the official helm chart and the [`MariadbOperator`](https://github.com/mmontes11/mariadb-operator-helm/blob/main/config/samples/helm_v1alpha1_mariadboperator.yaml) CRD, allowing to install `mariadb-operator` via OLM without having to do any change in the helm chart.
 
 Normally, you would install `mariadb-operator` providing this `values.yaml` to the helm chart:
