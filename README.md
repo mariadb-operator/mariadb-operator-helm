@@ -1,5 +1,6 @@
 # 🦭 mariadb-operator-helm
 [![CI](https://github.com/mmontes11/mariadb-operator-helm/actions/workflows/ci.yaml/badge.svg)](https://github.com/mmontes11/mariadb-operator-helm/actions/workflows/ci.yaml)
+[![Release](https://github.com/mmontes11/mariadb-operator-helm/actions/workflows/release.yaml/badge.svg)](https://github.com/mmontes11/mariadb-operator-helm/actions/workflows/release.yaml)
 
 Install [mariadb-operator](https://github.com/mmontes11/mariadb-operator) via [OLM](https://olm.operatorframework.io/) using the [helm chart](https://artifacthub.io/packages/helm/mariadb-operator/mariadb-operator).
 
