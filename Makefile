@@ -16,7 +16,7 @@ BUNDLE_METADATA_OPTS ?= $(BUNDLE_CHANNELS) $(BUNDLE_DEFAULT_CHANNEL) $(BUNDLE_PA
 #
 # For example, running 'make bundle-build bundle-push catalog-build catalog-push' will build and push both
 # mariadb.mmontes.io/helm-operator-bundle:$VERSION and mariadb.mmontes.io/helm-operator-catalog:$VERSION.
-IMAGE_TAG_BASE ?= mmontes11/mariadb-operator-helm
+IMAGE_TAG_BASE ?= docker.io/mmontes11/mariadb-operator-helm
 
 # BUNDLE_IMG defines the image:tag used for the bundle.
 # You can use it as an arg. (E.g make bundle-build BUNDLE_IMG=<some-registry>/<project-name-bundle>:<tag>)
@@ -34,7 +34,7 @@ ifeq ($(USE_IMAGE_DIGESTS), true)
 endif
 
 # Image URL to use all building/pushing image targets
-IMG ?= mmontes11/mariadb-operator-helm:v$(VERSION)
+IMG ?= docker.io/mmontes11/mariadb-operator-helm:v$(VERSION)
 
 .PHONY: all
 all: help
