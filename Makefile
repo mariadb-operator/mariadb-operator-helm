@@ -1,4 +1,4 @@
-VERSION ?= 0.6.2
+VERSION ?= 0.6.4
 
 CHANNELS ?= alpha
 BUNDLE_CHANNELS := --channels=$(CHANNELS)
