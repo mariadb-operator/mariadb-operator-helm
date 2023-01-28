@@ -6,6 +6,9 @@ BUNDLE_CHANNELS := --channels=$(CHANNELS)
 DEFAULT_CHANNEL ?= alpha
 BUNDLE_DEFAULT_CHANNEL := --default-channel=$(DEFAULT_CHANNEL)
 
+DEFAULT_PACKAGE ?= mariadb-operator
+BUNDLE_PACKAGE := --package=$(DEFAULT_PACKAGE)
+
 BUNDLE_METADATA_OPTS ?= $(BUNDLE_CHANNELS) $(BUNDLE_DEFAULT_CHANNEL) $(BUNDLE_PACKAGE)
 
 # IMAGE_TAG_BASE defines the docker.io namespace and part of the image name for remote images.

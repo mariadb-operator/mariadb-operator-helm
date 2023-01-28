@@ -2,37 +2,282 @@ apiVersion: operators.coreos.com/v1alpha1
 kind: ClusterServiceVersion
 metadata:
   annotations:
-    alm-examples: '[]'
+    alm-examples: |-
+      [
+        {
+          "apiVersion": "helm.mariadb.mmontes.io/v1alpha1",
+          "kind": "MariadbOperator",
+          "metadata": {
+            "name": "mariadb-operator"
+          },
+          "spec": {
+            "affinity": {},
+            "clusterName": "cluster.local",
+            "fullnameOverride": "",
+            "ha": {
+              "enabled": false,
+              "leaseId": "mariadb.mmontes.io",
+              "replicas": 3
+            },
+            "image": {
+              "pullPolicy": "IfNotPresent",
+              "repository": "mmontes11/mariadb-operator",
+              "tag": ""
+            },
+            "logLevel": "INFO",
+            "metrics": {
+              "enabled": false,
+              "serviceMonitor": {
+                "additionalLabels": {},
+                "enabled": true,
+                "interval": "30s",
+                "scrapeTimeout": "25s"
+              }
+            },
+            "nameOverride": "",
+            "nodeSelector": {},
+            "podAnnotations": {},
+            "podSecurityContext": {},
+            "resources": {},
+            "securityContext": {},
+            "tolerations": [],
+            "webhook": {
+              "affinity": {},
+              "certificate": {
+                "certManager": false,
+                "default": {
+                  "annotations": {},
+                  "caExpirationDays": 365,
+                  "certExpirationDays": 365
+                },
+                "path": "/tmp/k8s-webhook-server/serving-certs"
+              },
+              "enabled": true,
+              "hostNetwork": false,
+              "image": {
+                "pullPolicy": "IfNotPresent",
+                "repository": "mmontes11/mariadb-operator",
+                "tag": ""
+              },
+              "nodeSelector": {},
+              "podAnnotations": {},
+              "podSecurityContext": {},
+              "port": 10250,
+              "resources": {},
+              "securityContext": {},
+              "serviceMonitor": {
+                "additionalLabels": {},
+                "enabled": true,
+                "interval": "30s",
+                "scrapeTimeout": "25s"
+              },
+              "tolerations": []
+            }
+          }
+        },
+        {
+          "apiVersion": "mariadb.mmontes.io/v1alpha1",
+          "kind": "Backup",
+          "metadata": {
+            "name": "backup"
+          },
+          "spec": {
+            "mariaDbRef": {
+              "name": "mariadb"
+            },
+            "maxRetentionDays": 30,
+            "physical": true,
+            "resources": {
+              "limits": {
+                "cpu": "300m",
+                "memory": "512Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "128Mi"
+              }
+            },
+            "schedule": {
+              "cron": "*/1 * * * *",
+              "suspend": false
+            },
+            "storage": {
+              "persistentVolumeClaim": {
+                "accessModes": [
+                  "ReadWriteOnce"
+                ],
+                "resources": {
+                  "requests": {
+                    "storage": "100Mi"
+                  }
+                },
+                "storageClassName": "standard"
+              }
+            }
+          }
+        },
+        {
+          "apiVersion": "mariadb.mmontes.io/v1alpha1",
+          "kind": "Database",
+          "metadata": {
+            "name": "database"
+          },
+          "spec": {
+            "characterSet": "utf8",
+            "collate": "utf8_general_ci",
+            "mariaDbRef": {
+              "name": "mariadb"
+            }
+          }
+        },
+        {
+          "apiVersion": "mariadb.mmontes.io/v1alpha1",
+          "kind": "Grant",
+          "metadata": {
+            "name": "grant"
+          },
+          "spec": {
+            "database": "*",
+            "grantOption": true,
+            "mariaDbRef": {
+              "name": "mariadb"
+            },
+            "privileges": [
+              "SELECT",
+              "INSERT",
+              "UPDATE"
+            ],
+            "table": "*",
+            "username": "user"
+          }
+        },
+        {
+          "apiVersion": "mariadb.mmontes.io/v1alpha1",
+          "kind": "MariaDB",
+          "metadata": {
+            "name": "mariadb"
+          },
+          "spec": {
+            "bootstrapFrom": {
+              "backupRef": {
+                "name": "backup"
+              },
+              "physical": true
+            },
+            "database": "mariadb",
+            "env": [
+              {
+                "name": "TZ",
+                "value": "SYSTEM"
+              }
+            ],
+            "envFrom": [
+              {
+                "configMapRef": {
+                  "name": "mariadb"
+                }
+              }
+            ],
+            "image": {
+              "pullPolicy": "IfNotPresent",
+              "repository": "mariadb",
+              "tag": "10.7.4"
+            },
+            "passwordSecretKeyRef": {
+              "key": "password",
+              "name": "mariadb"
+            },
+            "port": 3306,
+            "resources": {
+              "limits": {
+                "cpu": "300m",
+                "memory": "512Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "128Mi"
+              }
+            },
+            "rootPasswordSecretKeyRef": {
+              "key": "root-password",
+              "name": "mariadb"
+            },
+            "username": "mariadb",
+            "volumeClaimTemplate": {
+              "accessModes": [
+                "ReadWriteOnce"
+              ],
+              "resources": {
+                "requests": {
+                  "storage": "100Mi"
+                }
+              },
+              "storageClassName": "standard"
+            }
+          }
+        },
+        {
+          "apiVersion": "mariadb.mmontes.io/v1alpha1",
+          "kind": "Restore",
+          "metadata": {
+            "name": "restore"
+          },
+          "spec": {
+            "backupRef": {
+              "name": "backup-scheduled"
+            },
+            "fileName": "backup.2023-01-02T21:35:01Z.sql",
+            "mariaDbRef": {
+              "name": "mariadb"
+            },
+            "resources": {
+              "limits": {
+                "cpu": "300m",
+                "memory": "512Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "128Mi"
+              }
+            }
+          }
+        },
+        {
+          "apiVersion": "mariadb.mmontes.io/v1alpha1",
+          "kind": "User",
+          "metadata": {
+            "name": "user"
+          },
+          "spec": {
+            "mariaDbRef": {
+              "name": "mariadb"
+            },
+            "maxUserConnections": 20,
+            "passwordSecretKeyRef": {
+              "key": "password",
+              "name": "user"
+            }
+          }
+        }
+      ]
     capabilities: Deep Insights
     categories: Database
     containerImage: mmontes11/mariadb-operator:latest
+    createdAt: "2023-01-28T18:04:39Z"
     description: Run and operate MariaDB in a cloud native way
+    operators.operatorframework.io/builder: operator-sdk-v1.26.0
+    operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
     repository: https://github.com/mmontes11/mariadb-operator
-  name: mariadb-operator-helm.v0.0.0
+  name: mariadb-operator.v0.6.4
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
   customresourcedefinitions:
     owned:
-    - description: Configures MariaDB helm chart based operator
-      displayName: MariadbOperator
-      kind: MariadbOperator
-      name: mariadboperators.helm.mariadb.mmontes.io
-      version: v1alpha1
-    - description: Provisions a MariaDB instance
-      displayName: MariaDB
-      kind: MariaDB
-      name: mariadbs.mariadb.mmontes.io
-      version: v1alpha1
     - description: Configures a backup
       displayName: Backup
       kind: Backup
       name: backups.mariadb.mmontes.io
-      version: v1alpha1
-    - description: Restores a backup
-      displayName: Restore
-      kind: Restore
-      name: restores.mariadb.mmontes.io
       version: v1alpha1
     - description: Defines a logical database
       displayName: Database
@@ -43,6 +288,21 @@ spec:
       displayName: Grant
       kind: Grant
       name: grants.mariadb.mmontes.io
+      version: v1alpha1
+    - description: Configures MariaDB helm chart based operator
+      displayName: MariadbOperator
+      kind: MariadbOperator
+      name: mariadboperators.helm.mariadb.mmontes.io
+      version: v1alpha1
+    - description: Provisions a MariaDB instance
+      displayName: MariaDB
+      kind: MariaDB
+      name: mariadbs.mariadb.mmontes.io
+      version: v1alpha1
+    - description: Restores a backup
+      displayName: Restore
+      kind: Restore
+      name: restores.mariadb.mmontes.io
       version: v1alpha1
     - description: Defines a user
       displayName: User
@@ -81,8 +341,185 @@ spec:
     mediatype: image/png
   install:
     spec:
-      deployments: null
-    strategy: ""
+      clusterPermissions:
+      - rules:
+        - apiGroups:
+          - ""
+          resources:
+          - namespaces
+          verbs:
+          - get
+        - apiGroups:
+          - ""
+          resources:
+          - secrets
+          verbs:
+          - '*'
+        - apiGroups:
+          - ""
+          resources:
+          - events
+          verbs:
+          - create
+        - apiGroups:
+          - helm.mariadb.mmontes.io
+          resources:
+          - mariadboperators
+          - mariadboperators/status
+          - mariadboperators/finalizers
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - rbac.authorization.k8s.io
+          resources:
+          - clusterrolebindings
+          - clusterroles
+          verbs:
+          - '*'
+        - apiGroups:
+          - admissionregistration.k8s.io
+          resources:
+          - validatingwebhookconfigurations
+          verbs:
+          - '*'
+        - apiGroups:
+          - rbac.authorization.k8s.io
+          resources:
+          - rolebindings
+          - roles
+          verbs:
+          - '*'
+        - apiGroups:
+          - apps
+          resources:
+          - deployments
+          verbs:
+          - '*'
+        - apiGroups:
+          - ""
+          resources:
+          - serviceaccounts
+          - services
+          verbs:
+          - '*'
+        - apiGroups:
+          - apiextensions.k8s.io
+          resources:
+          - customresourcedefinitions
+          verbs:
+          - '*'
+        - apiGroups:
+          - cert-manager.io
+          resources:
+          - certificates
+          - issuers
+          verbs:
+          - '*'
+        - apiGroups:
+          - monitoring.coreos.com
+          resources:
+          - servicemonitors
+          verbs:
+          - '*'
+        serviceAccountName: mariadb-operator-helm-controller-manager
+      deployments:
+      - label:
+          app.kubernetes.io/component: manager
+          app.kubernetes.io/created-by: helm-operator
+          app.kubernetes.io/instance: controller-manager
+          app.kubernetes.io/managed-by: kustomize
+          app.kubernetes.io/name: deployment
+          app.kubernetes.io/part-of: helm-operator
+          control-plane: controller-manager
+        name: mariadb-operator-helm-controller-manager
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              control-plane: controller-manager
+          strategy: {}
+          template:
+            metadata:
+              annotations:
+                kubectl.kubernetes.io/default-container: manager
+              labels:
+                control-plane: controller-manager
+            spec:
+              containers:
+              - args:
+                - --leader-elect
+                - --leader-election-id=helm-operator
+                image: mmontes11/mariadb-operator-helm:v0.6.4
+                livenessProbe:
+                  httpGet:
+                    path: /healthz
+                    port: 8081
+                  initialDelaySeconds: 15
+                  periodSeconds: 20
+                name: manager
+                readinessProbe:
+                  httpGet:
+                    path: /readyz
+                    port: 8081
+                  initialDelaySeconds: 5
+                  periodSeconds: 10
+                resources:
+                  limits:
+                    cpu: 500m
+                    memory: 128Mi
+                  requests:
+                    cpu: 10m
+                    memory: 64Mi
+                securityContext:
+                  allowPrivilegeEscalation: false
+                  capabilities:
+                    drop:
+                    - ALL
+              securityContext:
+                runAsNonRoot: true
+              serviceAccountName: mariadb-operator-helm-controller-manager
+              terminationGracePeriodSeconds: 10
+      permissions:
+      - rules:
+        - apiGroups:
+          - ""
+          resources:
+          - configmaps
+          verbs:
+          - get
+          - list
+          - watch
+          - create
+          - update
+          - patch
+          - delete
+        - apiGroups:
+          - coordination.k8s.io
+          resources:
+          - leases
+          verbs:
+          - get
+          - list
+          - watch
+          - create
+          - update
+          - patch
+          - delete
+        - apiGroups:
+          - ""
+          resources:
+          - events
+          verbs:
+          - create
+          - patch
+        serviceAccountName: mariadb-operator-helm-controller-manager
+    strategy: deployment
   installModes:
   - supported: true
     type: OwnNamespace
@@ -113,4 +550,4 @@ spec:
   provider:
     name: mmontes11
     url: https://github.com/mmontes11/mariadb-operator
-  version: 0.0.0
+  version: 0.6.4
