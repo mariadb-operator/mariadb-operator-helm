@@ -148,6 +148,7 @@ endif
 OPERATOR_SDK_RELEASE = v1.26.0
 OPERATOR_SDK = $(shell pwd)/bin/operator-sdk-$(OPERATOR_SDK_RELEASE)
 OPERATOR_SDK_DL_URL = https://github.com/operator-framework/operator-sdk/releases/download/$(OPERATOR_SDK_RELEASE)/operator-sdk_$(OS)_$(ARCH)
+.PHONY: operator-sdk
 operator-sdk:
 ifeq (,$(wildcard $(OPERATOR_SDK)))
 ifeq (,$(shell which $(OPERATOR_SDK) 2>/dev/null))
@@ -162,10 +163,29 @@ OPERATOR_SDK = $(shell which $(OPERATOR_SDK))
 endif
 endif
 
+.PHONY: yq
+YQ = $(shell pwd)/bin/yq
+yq: ## Download yq locally if necessary.
+ifeq (,$(wildcard $(YQ)))
+ifeq (,$(shell which yq 2>/dev/null))
+	@{ \
+	set -e ;\
+	mkdir -p $(dir $(YQ)) ;\
+	curl -sSLo - https://github.com/mikefarah/yq/releases/download/v4.16.1/yq_linux_amd64.tar.gz | \
+	tar xzf - -C bin/ ;\
+	mv bin/yq_linux_amd64 bin/yq ;\
+	}
+else
+YQ = $(shell which yq)
+endif
+endif
+
+
 .PHONY: bundle
 bundle: operator-sdk kustomize ## Generate bundle manifests and metadata, then validate generated files.
 	$(OPERATOR_SDK) generate kustomize manifests -q
 	cd config/manager && $(KUSTOMIZE) edit set image controller=$(IMG)
+	$(YQ) e -i '.metadata.annotations.containerImage = "$(IMG)"' config/manifests/bases/mariadb-operator.clusterserviceversion.yaml
 	$(KUSTOMIZE) build config/manifests | $(OPERATOR_SDK) generate bundle $(BUNDLE_GEN_FLAGS)
 	$(OPERATOR_SDK) bundle validate ./bundle
 
