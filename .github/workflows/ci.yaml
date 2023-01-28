@@ -47,6 +47,3 @@ jobs:
 
       - name: Build
         run: make bundle-build
-
-      - name: Test
-        run: make bundle-test

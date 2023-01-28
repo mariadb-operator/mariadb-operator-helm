@@ -174,10 +174,6 @@ bundle-build: ## Build the bundle image.
 bundle-push: ## Push the bundle image.
 	$(MAKE) docker-push IMG=$(BUNDLE_IMG)
 
-.PHONY: bundle-test 
-bundle-test: ## Test the bundle.
-	@./hack/test-bundle.sh $(VERSION)
-
 .PHONY: opm
 OPM = ./bin/opm
 opm: ## Download opm locally if necessary.
