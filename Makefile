@@ -31,7 +31,7 @@ ifeq ($(USE_IMAGE_DIGESTS), true)
 endif
 
 # Image URL to use all building/pushing image targets
-IMG ?= mmontes11/mariadb-operator-helm:latest
+IMG ?= mmontes11/mariadb-operator-helm:v$(VERSION)
 
 .PHONY: all
 all: help

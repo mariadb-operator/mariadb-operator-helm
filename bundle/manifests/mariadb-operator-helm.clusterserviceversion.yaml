@@ -263,7 +263,7 @@ metadata:
     capabilities: Deep Insights
     categories: Database
     containerImage: mmontes11/mariadb-operator:latest
-    createdAt: "2023-01-28T16:36:26Z"
+    createdAt: "2023-01-28T17:18:10Z"
     description: Run and operate MariaDB in a cloud native way
     operators.operatorframework.io/builder: operator-sdk-v1.26.0
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
@@ -455,7 +455,7 @@ spec:
               - args:
                 - --leader-elect
                 - --leader-election-id=helm-operator
-                image: mmontes11/mariadb-operator-helm:latest
+                image: mmontes11/mariadb-operator-helm:v0.6.4
                 livenessProbe:
                   httpGet:
                     path: /healthz
