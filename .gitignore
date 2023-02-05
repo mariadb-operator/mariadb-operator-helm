@@ -3,5 +3,5 @@ bin/
 helm-charts/*
 !helm-charts/README.md
 
-community-operators/*
-community-operators-prod/*
+community-operators/
+community-operators-prod/

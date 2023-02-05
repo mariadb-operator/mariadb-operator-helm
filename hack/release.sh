@@ -3,7 +3,6 @@
 set -euo pipefail
 
 VERSION=$1
-# TODO: trim left 'v' 
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 REPO_ROOT="$SCRIPT_DIR/../"
@@ -16,7 +15,7 @@ OPENSHIFT_REPO_DIR="community-operators-prod"
 
 function sync_repo() {
   REPO=$1
-  DIR=$(basename $REPO)
+  DIR=$2
   echo "Syncing repo '$REPO'"
 
   if [ -d "$DIR" ]; then
