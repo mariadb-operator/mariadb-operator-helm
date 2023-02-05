@@ -56,13 +56,15 @@ all: help
 help: ## Display this help.
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_0-9-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
+##@ Sync
+
 .PHONY: sync-chart
-sync-chart: ## Synchronize helm charts.
+sync-chart: ## Sync helm chart.
 	@./hack/sync-chart.sh $(VERSION)
 
-.PHONY: release
-release: ## Create PR in community operator repos. 
-	@./hack/release.sh $(VERSION)
+.PHONY: sync-upstream-repos
+sync-upstream-repos: ## Sync upstream repos.
+	@./hack/sync-upstream-repos.sh $(VERSION)
 
 ##@ Build
 

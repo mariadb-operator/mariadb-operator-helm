@@ -14,7 +14,7 @@ jobs:
       version: ${{ steps.version.outputs.version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -37,7 +37,7 @@ jobs:
     needs: version
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Generate bundle
         run: make bundle
@@ -57,7 +57,7 @@ jobs:
       - check-diff
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -107,7 +107,7 @@ jobs:
       - check-diff
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -143,3 +143,23 @@ jobs:
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.version=${{ needs.version.outputs.version }}
             org.opencontainers.image.created=${{ needs.version.outputs.build_date }}
+
+  sync-repos:
+    name: Sync repos
+    runs-on: ubuntu-latest
+    needs:
+      - version
+      - check-diff
+      - bundle
+      - operator
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ssh-key: ${{ secrets.SSH_KEY }}
+
+      - name: Sync chart
+        run: make sync-upstream-repos
+        env:
+          VERSION: "${{ needs.version.outputs.version }}"
