@@ -76,6 +76,8 @@ jobs:
 
       - name: Sync chart
         run: make sync-chart
+        env:
+          VERSION: "${{ needs.version.outputs.version }}"
 
       - name: Publish operator image
         uses: docker/build-push-action@v2
