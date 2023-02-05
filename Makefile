@@ -190,7 +190,7 @@ bundle: operator-sdk kustomize sync-chart ## Generate bundle manifests and metad
 	cd config/manager && $(KUSTOMIZE) edit set image controller=$(IMG)
 	$(YQ) e -i '.metadata.annotations.containerImage = "$(IMG)"' config/manifests/bases/mariadb-operator.clusterserviceversion.yaml
 	$(KUSTOMIZE) build config/manifests | $(OPERATOR_SDK) generate bundle $(BUNDLE_GEN_FLAGS)
-	$(OPERATOR_SDK) bundle validate ./bundle
+	$(OPERATOR_SDK) bundle validate ./bundle --select-optional suite=operatorframework
 
 .PHONY: bundle-build
 bundle-build: ## Build the bundle image.
