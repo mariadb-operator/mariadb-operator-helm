@@ -71,7 +71,7 @@ run: helm-operator ## Run against the configured Kubernetes cluster in ~/.kube/c
 	$(HELM_OPERATOR) run
 
 .PHONY: docker-build
-docker-build: sync-chart ## Build docker image with the manager.
+docker-build: ## Build docker image with the manager.
 	docker build -t ${IMG} .
 
 .PHONY: docker-push
@@ -86,7 +86,7 @@ docker-push: ## Push docker image with the manager.
 # To properly provided solutions that supports more than one platform you should use this option.
 PLATFORMS ?= linux/arm64,linux/amd64
 .PHONY: docker-buildx
-docker-buildx: sync-chart ## Build and push docker image for the manager for cross-platform support
+docker-buildx: ## Build and push docker image for the manager for cross-platform support
 	# copy existing Dockerfile and insert --platform=${BUILDPLATFORM} into Dockerfile.cross, and preserve the original Dockerfile
 	sed -e '1 s/\(^FROM\)/FROM --platform=\$$\{BUILDPLATFORM\}/; t' -e ' 1,// s//FROM --platform=\$$\{BUILDPLATFORM\}/' Dockerfile > Dockerfile.cross
 	- docker buildx create --name project-v3-builder
@@ -184,9 +184,8 @@ YQ = $(shell which yq)
 endif
 endif
 
-
 .PHONY: bundle
-bundle: operator-sdk kustomize ## Generate bundle manifests and metadata, then validate generated files.
+bundle: operator-sdk kustomize sync-chart ## Generate bundle manifests and metadata, then validate generated files.
 	$(OPERATOR_SDK) generate kustomize manifests -q
 	cd config/manager && $(KUSTOMIZE) edit set image controller=$(IMG)
 	$(YQ) e -i '.metadata.annotations.containerImage = "$(IMG)"' config/manifests/bases/mariadb-operator.clusterserviceversion.yaml

@@ -1,15 +1,16 @@
 #!/bin/bash
 
-REPO="https://github.com/mmontes11/mariadb-operator"
-HELM_CHART_PATH="helm-charts/mariadb-operator"
-HELM_CHART_VERSION="${1}"
+set -euo pipefail
 
-EXISTS=$(grep -ir ${HELM_CHART_VERSION} ${HELM_CHART_PATH}/Chart.yaml | wc -l)
+HELM_CHART_VERSION=$1
+HELM_CHART_DIR="helm-charts/mariadb-operator"
+RELEASE_URL="https://github.com/mmontes11/mariadb-operator/releases/download/helm-chart-$HELM_CHART_VERSION/mariadb-operator-$HELM_CHART_VERSION.tgz"
 
-if [ ${EXISTS} -ge 1 ]; then
-  echo "Helm chart version ${HELM_CHART_PATH} already synced, skipping";
-else 
-  echo "Helm chart version ${HELM_CHART_PATH} does not exist, syncing";
-  rm -rf ${HELM_CHART_PATH}/*
-  curl -sL ${REPO}/releases/download/helm-chart-${HELM_CHART_VERSION}/mariadb-operator-${HELM_CHART_VERSION}.tgz | tar xz -C helm-charts/
+echo "Syncing helm chart version $HELM_CHART_VERSION";
+if [ -d "$HELM_CHART_DIR" ]; then
+  rm -rf $HELM_CHART_DIR
 fi
+curl -sL $RELEASE_URL | tar xz -C helm-charts/
+
+echo "Syncing CRDs";
+cp helm-charts/mariadb-operator/crds/crds.yaml config/manifests/crds/crds.yaml
