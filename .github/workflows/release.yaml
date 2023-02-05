@@ -174,13 +174,6 @@ jobs:
           path: "community-operators-prod"
           token: "${{ secrets.GH_TOKEN }}"
 
-      - name: Configure git
-        run: |
-          git config --global user.mail "martin11lrx@gmail.com"
-          git config --global user.name "Martin Montes"
-          git config --global pull.rebase true
-          git config --global pull.ff only
-
       - name: Sync repos
         run: make sync-upstream-repos
         env:

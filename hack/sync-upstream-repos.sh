@@ -27,6 +27,8 @@ function sync_repo() {
 
   echo "🚀 Setting up repo"
   cd $NAME
+  git config user.email "martin11lrx@gmail.com"
+  git config user.name "Martin Montes"
   git remote add upstream $UPSTREAM_REPO
   git fetch --all
   git reset --hard upstream/main
@@ -38,7 +40,7 @@ function sync_repo() {
   echo "🚀 Submitting PR"
   git add .
   git commit -m "operator mariadb-operator ($VERSION)" --signoff
-  git push
+  git push -f 
   gh pr create --repo $UPSTREAM_REPO \
     --title "operator mariadb-operator ($VERSION)" \
     --body "Add operator mariadb-operator ($VERSION) to community operators"
