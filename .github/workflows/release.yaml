@@ -159,7 +159,7 @@ jobs:
           fetch-depth: 0
           token: "${{ secrets.GH_TOKEN }}"
 
-      - name: Sync chart
+      - name: Sync repos
         run: make sync-upstream-repos
         env:
           VERSION: "${{ needs.version.outputs.version }}"
