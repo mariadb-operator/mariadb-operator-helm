@@ -10,12 +10,16 @@ BUNDLE_DIR="$REPO_ROOT/bundle"
 
 COMMUNITY_REPO="git@github.com:mmontes11/community-operators.git"
 COMMUNITY_REPO_DIR="community-operators"
+COMMUNITY_UPSTREAM_REPO="k8s-operatorhub/community-operators"
+
 OPENSHIFT_REPO="git@github.com:mmontes11/community-operators-prod.git"
 OPENSHIFT_REPO_DIR="community-operators-prod"
+OPENSHIFT_UPSTREAM_REPO="redhat-openshift-ecosystem/community-operators-prod"
 
 function sync_repo() {
   REPO=$1
   DIR=$2
+  UPSTREAM_REPO=$3
   echo "Syncing repo '$REPO'"
 
   if [ -d "$DIR" ]; then
@@ -28,15 +32,16 @@ function sync_repo() {
   
   cd $DIR
   git add .
-  git commit -am "operator mariadb-operator ($VERSION)" --signoff
+  git commit -m "operator mariadb-operator ($VERSION)" --signoff
   git push
-  # TODO: git push
-  # TODO: gh create pr
+  gh pr create --repo $UPSTREAM_REPO \
+    --title "operator mariadb-operator ($VERSION)" \
+    --body "Add operator mariadb-operator ($VERSION) to community operators"
   cd -
 }
 
 git config --global user.mail "martin11lrx@gmail.com"
 git config --global user.name "Martin Montes"
 
-sync_repo $COMMUNITY_REPO $COMMUNITY_REPO_DIR
-sync_repo $OPENSHIFT_REPO $OPENSHIFT_REPO_DIR
+sync_repo $COMMUNITY_REPO $COMMUNITY_REPO_DIR $COMMUNITY_UPSTREAM_REPO
+sync_repo $OPENSHIFT_REPO $OPENSHIFT_REPO_DIR $OPENSHIFT_UPSTREAM_REPO
