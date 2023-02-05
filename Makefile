@@ -60,6 +60,10 @@ help: ## Display this help.
 sync-chart: ## Synchronize helm charts.
 	@./hack/sync-chart.sh $(VERSION)
 
+.PHONY: release
+release: ## Create PR in community operator repos. 
+	@./hack/release.sh $(VERSION)
+
 ##@ Build
 
 .PHONY: run
