@@ -1,0 +1,23 @@
+name: Bundle
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Helm chart version used to bump the bundle"
+        required: true
+        type: string
+
+jobs:
+  bump:
+    name: Bump
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: "${{ secrets.GH_TOKEN }}"
+
+      - name: Bump bundle
+        run: ./hack/bump-bundle.sh "${{ inputs.version }}"
