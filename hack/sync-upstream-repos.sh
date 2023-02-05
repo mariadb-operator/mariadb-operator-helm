@@ -27,10 +27,6 @@ function sync_repo() {
 
   echo "🚀 Setting up repo"
   cd $NAME
-  git config user.mail "martin11lrx@gmail.com"
-  git config user.name "Martin Montes"
-  git config pull.rebase true
-  git config pull.ff only
   git remote add upstream $UPSTREAM_REPO
   git fetch --all
   git reset --hard upstream/main
