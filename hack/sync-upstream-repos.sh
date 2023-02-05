@@ -8,14 +8,14 @@ SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 REPO_ROOT="$SCRIPT_DIR/../"
 BUNDLE_DIR="$REPO_ROOT/bundle"
 
-COMMUNITY_REPO="git@github.com:mmontes11/community-operators.git"
+COMMUNITY_REPO="https://github.com/mmontes11/community-operators"
 COMMUNITY_REPO_NAME="community-operators"
-COMMUNITY_UPSTREAM_REPO="git@github.com:k8s-operatorhub/community-operators.git"
+COMMUNITY_UPSTREAM_REPO="https://github.com/k8s-operatorhub/community-operators"
 COMMUNITY_UPSTREAM_NAME="k8s-operatorhub/community-operators"
 
-OPENSHIFT_REPO="git@github.com:mmontes11/community-operators-prod.git"
+OPENSHIFT_REPO="https://github.com/mmontes11/community-operators-prod"
 OPENSHIFT_REPO_NAME="community-operators-prod"
-OPENSHIFT_UPSTREAM_REPO="git@github.com:redhat-openshift-ecosystem/community-operators-prod.git"
+OPENSHIFT_UPSTREAM_REPO="https://github.com/redhat-openshift-ecosystem/community-operators-prod"
 OPENSHIFT_UPSTREAM_NAME="redhat-openshift-ecosystem/community-operators-prod"
 
 function sync_repo() {
