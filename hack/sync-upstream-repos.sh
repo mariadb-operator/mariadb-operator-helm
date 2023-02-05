@@ -26,11 +26,11 @@ function sync_repo() {
   echo "🚀 Syncing repo '$NAME' with upstream '$UPSTREAM_NAME'"
 
   echo "🚀 Setting up repo"
-  if [ -d "$NAME" ]; then
-    rm -rf $NAME
-  fi
-  git clone $REPO $NAME
   cd $NAME
+  git config user.mail "martin11lrx@gmail.com"
+  git config user.name "Martin Montes"
+  git config pull.rebase true
+  git config pull.ff only
   git remote add upstream $UPSTREAM_REPO
   git fetch --all
   git reset --hard upstream/main
@@ -48,9 +48,6 @@ function sync_repo() {
     --body "Add operator mariadb-operator ($VERSION) to community operators"
   cd -
 }
-
-git config --global user.mail "martin11lrx@gmail.com"
-git config --global user.name "Martin Montes"
 
 sync_repo $COMMUNITY_REPO $COMMUNITY_REPO_NAME $COMMUNITY_UPSTREAM_REPO $COMMUNITY_UPSTREAM_NAME
 sync_repo $OPENSHIFT_REPO $OPENSHIFT_REPO_NAME $OPENSHIFT_UPSTREAM_REPO $OPENSHIFT_UPSTREAM_NAME
