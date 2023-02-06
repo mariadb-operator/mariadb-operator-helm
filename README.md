@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://mmontes11.github.io/mariadb-operator/assets/mariadb.png" alt="mariadb" width="250"/>
+<img src="https://mmontes11.github.io/mariadb-operator/assets/mariadb-operator.png" alt="mariadb" width="250"/>
 </p>
 
 # 🦭 mariadb-operator-helm
