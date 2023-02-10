@@ -262,12 +262,12 @@ metadata:
       ]
     capabilities: Deep Insights
     categories: Database
-    containerImage: docker.io/mmontes11/mariadb-operator-helm:0.6.6
+    containerImage: docker.io/mmontes11/mariadb-operator-helm:0.6.7
     description: Run and operate MariaDB in a cloud native way
     operators.operatorframework.io/builder: operator-sdk-v1.26.0
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
     repository: https://github.com/mmontes11/mariadb-operator
-  name: mariadb-operator.v0.6.6
+  name: mariadb-operator.v0.6.7
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -429,7 +429,7 @@ spec:
                   - args:
                       - --leader-elect
                       - --leader-election-id=helm-operator
-                    image: docker.io/mmontes11/mariadb-operator-helm:0.6.6
+                    image: docker.io/mmontes11/mariadb-operator-helm:0.6.7
                     livenessProbe:
                       httpGet:
                         path: /healthz
@@ -524,4 +524,4 @@ spec:
   provider:
     name: mmontes11
     url: https://github.com/mmontes11/mariadb-operator
-  version: 0.6.6
+  version: 0.6.7
