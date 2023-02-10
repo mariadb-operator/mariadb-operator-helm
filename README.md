@@ -2,11 +2,18 @@
 <img src="https://mmontes11.github.io/mariadb-operator/assets/mariadb-operator.png" alt="mariadb" width="250"/>
 </p>
 
+<p align="center">
+<a href="https://github.com/mmontes11/mariadb-operator-helm/actions/workflows/ci.yaml"><img src="https://github.com/mmontes11/mariadb-operator-helm/actions/workflows/ci.yaml/badge.svg" alt="CI"></a>
+<a href="https://github.com/mmontes11/mariadb-operator-helm/actions/workflows/bundle.yaml"><img src="https://github.com/mmontes11/mariadb-operator-helm/actions/workflows/bundle.yaml/badge.svg" alt="Bundle"></a>
+<a href="https://github.com/mmontes11/mariadb-operator-helm/actions/workflows/release.yaml"><img src="https://github.com/mmontes11/mariadb-operator-helm/actions/workflows/release.yaml/badge.svg" alt="Release"></a>
+</p>
+
+<p align="center">
+<a href="https://operatorhub.io/operator/mariadb-operator"><img src="https://img.shields.io/badge/Operator%20Hub-mariadb--operator-red" alt="Operator Hub"></a>
+<a href="https://artifacthub.io/packages/olm/community-operators/mariadb-operator"><img src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/mariadb-operator" alt="Artifact Hub"></a>
+</p>
+
 # 🦭 mariadb-operator-helm
-[![CI](https://github.com/mmontes11/mariadb-operator-helm/actions/workflows/ci.yaml/badge.svg)](https://github.com/mmontes11/mariadb-operator-helm/actions/workflows/ci.yaml)
-[![Bundle](https://github.com/mmontes11/mariadb-operator-helm/actions/workflows/bundle.yaml/badge.svg)](https://github.com/mmontes11/mariadb-operator-helm/actions/workflows/bundle.yaml)
-[![Release](https://github.com/mmontes11/mariadb-operator-helm/actions/workflows/release.yaml/badge.svg)](https://github.com/mmontes11/mariadb-operator-helm/actions/workflows/release.yaml)
-[![Operator Hub](https://img.shields.io/badge/Operator%20Hub-mariadb--operator-red)](https://operatorhub.io/operator/mariadb-operator)
 
 Install [mariadb-operator](https://github.com/mmontes11/mariadb-operator) via [OLM](https://olm.operatorframework.io/) using the [helm chart](https://artifacthub.io/packages/helm/mariadb-operator/mariadb-operator).
 
