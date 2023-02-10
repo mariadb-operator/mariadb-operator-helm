@@ -66,6 +66,11 @@ Once you have installed the operator, you are able to install a `MariaDB` instan
 * [mariadb-operator](https://github.com/mmontes11/mariadb-operator/blob/main/README.md)
 * [mariadb-operator-helm](https://github.com/mmontes11/mariadb-operator-helm/blob/main/README.md)
 
+## Releases
+This operator is automatically published in the following repositories whenever a new version of the [helm chart](https://artifacthub.io/packages/helm/mariadb-operator/mariadb-operator) is released:
+- [k8s-operatorhub/community-operators](https://github.com/k8s-operatorhub/community-operators)
+- [redhat-openshift-ecosystem/community-operators-prod](https://github.com/redhat-openshift-ecosystem/community-operators-prod)
+
 ## Roadmap
 Take a look at our [🛣️ roadmap](https://github.com/mmontes11/mariadb-operator/blob/main/ROADMAP.md) and feel free to open an issue to suggest new features.
 
