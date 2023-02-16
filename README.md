@@ -51,7 +51,7 @@ spec:
   ha:
     enabled: true
   metrics:
-    enalbed: true
+    enabled: true
     serviceMonitor:
       enabled: true
   webhook:
