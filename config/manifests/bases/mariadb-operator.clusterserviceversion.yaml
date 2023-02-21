@@ -29,6 +29,11 @@ spec:
         kind: Backup
         name: backups.mariadb.mmontes.io
         version: v1alpha1
+      - description: Configures a connection
+        displayName: Connection
+        kind: Connection
+        name: connections.mariadb.mmontes.io
+        version: v1alpha1
       - description: Restores a backup
         displayName: Restore
         kind: Restore
