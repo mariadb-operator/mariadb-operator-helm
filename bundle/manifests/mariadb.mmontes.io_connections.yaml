@@ -4,16 +4,16 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.11.1
   creationTimestamp: null
-  name: databases.mariadb.mmontes.io
+  name: connections.mariadb.mmontes.io
 spec:
   group: mariadb.mmontes.io
   names:
-    kind: Database
-    listKind: DatabaseList
-    plural: databases
+    kind: Connection
+    listKind: ConnectionList
+    plural: connections
     shortNames:
-    - dmdb
-    singular: database
+    - cmdb
+    singular: connection
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -23,11 +23,8 @@ spec:
     - jsonPath: .status.conditions[?(@.type=="Ready")].message
       name: Status
       type: string
-    - jsonPath: .spec.characterSet
-      name: CharSet
-      type: string
-    - jsonPath: .spec.collate
-      name: Collate
+    - jsonPath: .spec.secretName
+      name: Secret
       type: string
     - jsonPath: .spec.mariaDbRef.name
       name: MariaDB
@@ -38,7 +35,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Database is the Schema for the databases API
+        description: Connection is the Schema for the connections API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -53,14 +50,17 @@ spec:
           metadata:
             type: object
           spec:
-            description: DatabaseSpec defines the desired state of Database
+            description: ConnectionSpec defines the desired state of Connection
             properties:
-              characterSet:
-                default: utf8
+              database:
                 type: string
-              collate:
-                default: utf8_general_ci
-                type: string
+              healthCheck:
+                properties:
+                  interval:
+                    type: string
+                  retryInterval:
+                    type: string
+                type: object
               mariaDbRef:
                 properties:
                   name:
@@ -72,11 +72,48 @@ spec:
                     type: boolean
                 type: object
                 x-kubernetes-map-type: atomic
+              passwordSecretKeyRef:
+                description: SecretKeySelector selects a key of a Secret.
+                properties:
+                  key:
+                    description: The key of the secret to select from.  Must be a
+                      valid secret key.
+                    type: string
+                  name:
+                    description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                      TODO: Add other useful fields. apiVersion, kind, uid?'
+                    type: string
+                  optional:
+                    description: Specify whether the Secret or its key must be defined
+                    type: boolean
+                required:
+                - key
+                type: object
+                x-kubernetes-map-type: atomic
+              secretName:
+                type: string
+              secretTemplate:
+                properties:
+                  annotations:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  key:
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                type: object
+              username:
+                type: string
             required:
             - mariaDbRef
+            - passwordSecretKeyRef
+            - username
             type: object
           status:
-            description: DatabaseStatus defines the observed state of Database
+            description: ConnectionStatus defines the observed state of Connection
             properties:
               conditions:
                 items:

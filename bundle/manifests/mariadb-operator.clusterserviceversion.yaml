@@ -118,6 +118,38 @@ metadata:
         },
         {
           "apiVersion": "mariadb.mmontes.io/v1alpha1",
+          "kind": "Connection",
+          "metadata": {
+            "name": "connection"
+          },
+          "spec": {
+            "database": "mariadb",
+            "healthCheck": {
+              "interval": "10s",
+              "retryInterval": "3s"
+            },
+            "mariaDbRef": {
+              "name": "mariadb"
+            },
+            "passwordSecretKeyRef": {
+              "key": "password",
+              "name": "mariadb"
+            },
+            "secretName": "connection",
+            "secretTemplate": {
+              "annotations": {
+                "mariadb.mmontes.io/connection": "sample"
+              },
+              "key": "dsn",
+              "labels": {
+                "mariadb.mmontes.io/connection": "sample"
+              }
+            },
+            "username": "mariadb"
+          }
+        },
+        {
+          "apiVersion": "mariadb.mmontes.io/v1alpha1",
           "kind": "Database",
           "metadata": {
             "name": "database"
@@ -262,12 +294,12 @@ metadata:
       ]
     capabilities: Deep Insights
     categories: Database
-    containerImage: docker.io/mmontes11/mariadb-operator-helm:0.6.7
+    containerImage: docker.io/mmontes11/mariadb-operator-helm:0.7.0
     description: Run and operate MariaDB in a cloud native way
     operators.operatorframework.io/builder: operator-sdk-v1.26.0
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
     repository: https://github.com/mmontes11/mariadb-operator
-  name: mariadb-operator.v0.6.7
+  name: mariadb-operator.v0.7.0
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -277,6 +309,9 @@ spec:
         displayName: Backup
         kind: Backup
         name: backups.mariadb.mmontes.io
+        version: v1alpha1
+      - kind: Connection
+        name: connections.mariadb.mmontes.io
         version: v1alpha1
       - description: Defines a logical database
         displayName: Database
@@ -429,7 +464,7 @@ spec:
                   - args:
                       - --leader-elect
                       - --leader-election-id=helm-operator
-                    image: docker.io/mmontes11/mariadb-operator-helm:0.6.7
+                    image: docker.io/mmontes11/mariadb-operator-helm:0.7.0
                     livenessProbe:
                       httpGet:
                         path: /healthz
@@ -524,4 +559,4 @@ spec:
   provider:
     name: mmontes11
     url: https://github.com/mmontes11/mariadb-operator
-  version: 0.6.7
+  version: 0.7.0

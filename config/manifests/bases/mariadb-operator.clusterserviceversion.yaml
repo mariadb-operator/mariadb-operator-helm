@@ -5,7 +5,7 @@ metadata:
     alm-examples: '[]'
     capabilities: Deep Insights
     categories: Database
-    containerImage: docker.io/mmontes11/mariadb-operator-helm:0.6.7
+    containerImage: docker.io/mmontes11/mariadb-operator-helm:0.7.0
     description: Run and operate MariaDB in a cloud native way
     repository: https://github.com/mmontes11/mariadb-operator
   name: mariadb-operator.v0.0.0
