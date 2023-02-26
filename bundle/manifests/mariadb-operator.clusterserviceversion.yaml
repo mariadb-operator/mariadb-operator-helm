@@ -131,6 +131,9 @@ metadata:
             "mariaDbRef": {
               "name": "mariadb"
             },
+            "params": {
+              "parseTime": "true"
+            },
             "passwordSecretKeyRef": {
               "key": "password",
               "name": "mariadb"
