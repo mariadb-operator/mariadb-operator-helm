@@ -5,4 +5,4 @@ kind: Kustomization
 images:
 - name: controller
   newName: docker.io/mmontes11/mariadb-operator-helm
-  newTag: 0.7.1
+  newTag: 0.8.0
