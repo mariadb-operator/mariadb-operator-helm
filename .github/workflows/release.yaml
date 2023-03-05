@@ -164,7 +164,7 @@ jobs:
           fetch-depth: 0
           repository: "mmontes11/community-operators"
           path: "community-operators"
-          token: "${{ secrets.GH_TOKEN }}"
+          token: "${{ secrets.GITHUB_TOKEN }}"
 
       - name: Checkout community-operators-prod
         uses: actions/checkout@v3
@@ -172,10 +172,10 @@ jobs:
           fetch-depth: 0
           repository: "mmontes11/community-operators-prod"
           path: "community-operators-prod"
-          token: "${{ secrets.GH_TOKEN }}"
+          token: "${{ secrets.GITHUB_TOKEN }}"
 
       - name: Sync repos
         run: make sync-upstream-repos
         env:
           VERSION: "${{ needs.version.outputs.version }}"
-          GITHUB_TOKEN: "${{ secrets.GH_TOKEN }}"
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
