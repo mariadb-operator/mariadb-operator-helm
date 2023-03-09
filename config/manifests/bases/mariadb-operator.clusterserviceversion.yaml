@@ -49,6 +49,11 @@ spec:
         kind: Grant
         name: grants.mariadb.mmontes.io
         version: v1alpha1
+      - description: Defines a SQL job
+        displayName: SqlJob
+        kind: SqlJob
+        name: sqljobs.mariadb.mmontes.io
+        version: v1alpha1
       - description: Defines a user
         displayName: User
         kind: User
