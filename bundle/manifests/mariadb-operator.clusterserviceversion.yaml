@@ -279,6 +279,25 @@ metadata:
         },
         {
           "apiVersion": "mariadb.mmontes.io/v1alpha1",
+          "kind": "SqlJob",
+          "metadata": {
+            "name": "sqljob"
+          },
+          "spec": {
+            "database": "mariadb",
+            "mariaDbRef": {
+              "name": "mariadb"
+            },
+            "passwordSecretKeyRef": {
+              "key": "password",
+              "name": "mariadb"
+            },
+            "sql": "CREATE TABLE IF NOT EXISTS users (\n  id bigint PRIMARY KEY AUTO_INCREMENT,\n  username varchar(255) NOT NULL,\n  email varchar(255) NOT NULL,\n  UNIQUE KEY name__unique_idx (username),\n  UNIQUE KEY email__unique_idx (email)\n);\n",
+            "username": "mariadb"
+          }
+        },
+        {
+          "apiVersion": "mariadb.mmontes.io/v1alpha1",
           "kind": "User",
           "metadata": {
             "name": "user"
@@ -297,12 +316,12 @@ metadata:
       ]
     capabilities: Deep Insights
     categories: Database
-    containerImage: docker.io/mmontes11/mariadb-operator-helm:0.9.0
+    containerImage: docker.io/mmontes11/mariadb-operator-helm:0.9.1
     description: Run and operate MariaDB in a cloud native way
     operators.operatorframework.io/builder: operator-sdk-v1.26.0
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
     repository: https://github.com/mmontes11/mariadb-operator
-  name: mariadb-operator.v0.9.0
+  name: mariadb-operator.v0.9.1
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -342,6 +361,11 @@ spec:
         displayName: Restore
         kind: Restore
         name: restores.mariadb.mmontes.io
+        version: v1alpha1
+      - description: Defines a SQL job
+        displayName: SqlJob
+        kind: SqlJob
+        name: sqljobs.mariadb.mmontes.io
         version: v1alpha1
       - description: Defines a user
         displayName: User
@@ -469,7 +493,7 @@ spec:
                   - args:
                       - --leader-elect
                       - --leader-election-id=helm-operator
-                    image: docker.io/mmontes11/mariadb-operator-helm:0.9.0
+                    image: docker.io/mmontes11/mariadb-operator-helm:0.9.1
                     livenessProbe:
                       httpGet:
                         path: /healthz
@@ -564,4 +588,4 @@ spec:
   provider:
     name: mmontes11
     url: https://github.com/mmontes11/mariadb-operator
-  version: 0.9.0
+  version: 0.9.1
