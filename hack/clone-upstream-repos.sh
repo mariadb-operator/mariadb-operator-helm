@@ -2,10 +2,10 @@
 
 set -euo pipefail
 
-COMMUNITY_REPO="git@github.com:mmontes11/community-operators.git"
+COMMUNITY_REPO="git@github.com:mariadb-operator/community-operators.git"
 COMMUNITY_REPO_NAME="community-operators"
 
-OPENSHIFT_REPO="git@github.com:mmontes11/community-operators-prod.git"
+OPENSHIFT_REPO="git@github.com:mariadb-operator/community-operators-prod.git"
 OPENSHIFT_REPO_NAME="community-operators-prod"
 
 function clone_repo() {

@@ -13,7 +13,7 @@ spec:
     replicas: 3
   image:
     pullPolicy: IfNotPresent
-    repository: mmontes11/mariadb-operator
+    repository: ghcr.io/mariadb-operator/mariadb-operator
     tag: ""
   logLevel: INFO
   metrics:
@@ -43,7 +43,7 @@ spec:
     hostNetwork: false
     image:
       pullPolicy: IfNotPresent
-      repository: mmontes11/mariadb-operator
+      repository: ghcr.io/mariadb-operator/mariadb-operator
       tag: ""
     nodeSelector: {}
     podAnnotations: {}
