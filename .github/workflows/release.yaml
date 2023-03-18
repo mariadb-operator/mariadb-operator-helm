@@ -57,22 +57,25 @@ jobs:
       - check-diff
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
+      - name: Fetch tags
+        run: git fetch --force --tags
+
       - name: Setup QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
 
       - name: Setup Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
         id: buildx
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v1
+      - name: Login to container Registry
+        uses: docker/login-action@v2
         with:
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GHA_TOKEN }}
           registry: ghcr.io
 
       - name: Sync chart
@@ -89,8 +92,8 @@ jobs:
           file: ./Dockerfile
           platforms: linux/arm64,linux/amd64
           tags: |
-            ghcr.io/mariadb-operator/mariadb-operator-helm:${{ needs.version.outputs.version }}
-            ghcr.io/mariadb-operator/mariadb-operator-helm:latest
+            ghcr.io/${{ github.repository_owner }}/mariadb-operator-helm:${{ needs.version.outputs.version }}
+            ghcr.io/${{ github.repository_owner }}/mariadb-operator-helm:latest
           labels: |
             org.opencontainers.image.title=${{ github.event.repository.name }}
             org.opencontainers.image.description=${{ github.event.repository.description }}
@@ -108,22 +111,25 @@ jobs:
       - check-diff
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
+      - name: Fetch tags
+        run: git fetch --force --tags
+
       - name: Setup QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
 
       - name: Setup Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
         id: buildx
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v1
+      - name: Login to container Registry
+        uses: docker/login-action@v2
         with:
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GHA_TOKEN }}
           registry: ghcr.io
 
       - name: Publish operator image
@@ -135,8 +141,8 @@ jobs:
           file: ./bundle.Dockerfile
           platforms: linux/arm64,linux/amd64
           tags: |
-            ghcr.io/mariadb-operator/mariadb-operator-helm-bundle:${{ needs.version.outputs.version }}
-            ghcr.io/mariadb-operator/mariadb-operator-helm-bundle:latest
+            ghcr.io/${{ github.repository_owner }}/mariadb-operator-helm-bundle:${{ needs.version.outputs.version }}
+            ghcr.io/${{ github.repository_owner }}/mariadb-operator-helm-bundle:latest
           labels: |
             org.opencontainers.image.title=${{ github.event.repository.name }}
             org.opencontainers.image.description=${{ github.event.repository.description }}
