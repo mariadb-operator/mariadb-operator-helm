@@ -73,6 +73,7 @@ jobs:
         with:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
 
       - name: Sync chart
         run: make sync-chart
@@ -123,6 +124,7 @@ jobs:
         with:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
 
       - name: Publish operator image
         uses: docker/build-push-action@v2
