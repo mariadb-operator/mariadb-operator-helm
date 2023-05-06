@@ -109,6 +109,8 @@ spec:
                       type: string
                     type: object
                 type: object
+              serviceName:
+                type: string
               username:
                 type: string
             required:
