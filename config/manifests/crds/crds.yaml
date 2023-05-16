@@ -2874,12 +2874,22 @@ spec:
                     additionalProperties:
                       type: string
                     type: object
+                  databaseKey:
+                    type: string
+                  hostKey:
+                    type: string
                   key:
                     type: string
                   labels:
                     additionalProperties:
                       type: string
                     type: object
+                  passwordKey:
+                    type: string
+                  portKey:
+                    type: string
+                  usernameKey:
+                    type: string
                 type: object
               serviceName:
                 type: string
@@ -5744,12 +5754,22 @@ spec:
                         additionalProperties:
                           type: string
                         type: object
+                      databaseKey:
+                        type: string
+                      hostKey:
+                        type: string
                       key:
                         type: string
                       labels:
                         additionalProperties:
                           type: string
                         type: object
+                      passwordKey:
+                        type: string
+                      portKey:
+                        type: string
+                      usernameKey:
+                        type: string
                     type: object
                   serviceName:
                     type: string
@@ -5925,6 +5945,17 @@ spec:
                   type: object
                   x-kubernetes-map-type: atomic
                 type: array
+              inheritMetadata:
+                properties:
+                  annotations:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  labels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                type: object
               livenessProbe:
                 description: Probe describes a health check to be performed against
                   a container to determine whether it is alive or ready to receive
@@ -6535,12 +6566,22 @@ spec:
                                 additionalProperties:
                                   type: string
                                 type: object
+                              databaseKey:
+                                type: string
+                              hostKey:
+                                type: string
                               key:
                                 type: string
                               labels:
                                 additionalProperties:
                                   type: string
                                 type: object
+                              passwordKey:
+                                type: string
+                              portKey:
+                                type: string
+                              usernameKey:
+                                type: string
                             type: object
                           serviceName:
                             type: string
@@ -12146,6 +12187,16 @@ spec:
                   none of the following policies is specified, the default one is
                   RestartPolicyAlways.
                 type: string
+              schedule:
+                properties:
+                  cron:
+                    type: string
+                  suspend:
+                    default: false
+                    type: boolean
+                required:
+                - cron
+                type: object
               sql:
                 type: string
               sqlConfigMapKeyRef:
