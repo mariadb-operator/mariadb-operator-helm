@@ -3300,12 +3300,18 @@ spec:
                         type: integer
                       connectionTimeout:
                         type: string
+                      gtid:
+                        default: CurrentPos
+                        type: string
                       syncTimeout:
                         type: string
                       waitPoint:
                         default: AfterCommit
                         type: string
                     type: object
+                  syncBinlog:
+                    default: true
+                    type: boolean
                 required:
                 - primary
                 type: object
