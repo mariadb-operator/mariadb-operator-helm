@@ -6,6 +6,7 @@
 <a href="https://github.com/mariadb-operator/mariadb-operator-helm/actions/workflows/ci.yaml"><img src="https://github.com/mariadb-operator/mariadb-operator-helm/actions/workflows/ci.yaml/badge.svg" alt="CI"></a>
 <a href="https://github.com/mariadb-operator/mariadb-operator-helm/actions/workflows/bundle.yaml"><img src="https://github.com/mariadb-operator/mariadb-operator-helm/actions/workflows/bundle.yaml/badge.svg" alt="Bundle"></a>
 <a href="https://github.com/mariadb-operator/mariadb-operator-helm/actions/workflows/release.yaml"><img src="https://github.com/mariadb-operator/mariadb-operator-helm/actions/workflows/release.yaml/badge.svg" alt="Release"></a>
+<a href="https://join.slack.com/t/mariadb-operator/shared_invite/zt-1xsfguxlf-dhtV6zk0HwlAh_U2iYfUxw"><img alt="Slack" src="https://img.shields.io/badge/slack-join_chat-blue?logo=Slack&label=slack&style=flat"></a>
 </p>
 
 <p align="center">
