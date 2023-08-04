@@ -33,7 +33,6 @@ metrics:
   serviceMonitor:
     enabled: true
 webhook:
-  enabled: true
   certificate:
     certManager: true
 ```
@@ -56,7 +55,6 @@ spec:
     serviceMonitor:
       enabled: true
   webhook:
-    enabled: true
     certificate:
       certManager: true
 ```
