@@ -71,10 +71,10 @@ This operator is automatically published in the following repositories whenever 
 - [redhat-openshift-ecosystem/community-operators-prod](https://github.com/redhat-openshift-ecosystem/community-operators-prod)
 
 ## Roadmap
-Take a look at our [🛣️ roadmap](https://github.com/mariadb-operator/mariadb-operator/blob/main/ROADMAP.md) and feel free to open an issue to suggest new features.
+Take a look at our [roadmap](https://github.com/mariadb-operator/mariadb-operator/blob/main/ROADMAP.md) and feel free to open an issue to suggest new features.
 
 ## Contributing
-If you want to report a 🐛 or you think something can be improved, please check our [contributing](https://github.com/mariadb-operator/mariadb-operator/blob/main/CONTRIBUTING.md) guide and take a look at our open [issues](https://github.com/mariadb-operator/mariadb-operator/issues). PRs are welcome!
+We welcome and encourage contributions to this project! Please check our [contributing](https://github.com/mariadb-operator/mariadb-operator/blob/main/CONTRIBUTING.md) and [development](https://github.com/mariadb-operator/mariadb-operator/blob/main/docs/DEVELOPMENT.md) guides. PRs welcome!
 
 ## Get in touch
 - [Slack](https://join.slack.com/t/mariadb-operator/shared_invite/zt-1uqe7lbee-bINmUwnzPm0C5MLw1qWAow)
