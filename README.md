@@ -6,10 +6,10 @@
 <a href="https://github.com/mariadb-operator/mariadb-operator-helm/actions/workflows/ci.yaml"><img src="https://github.com/mariadb-operator/mariadb-operator-helm/actions/workflows/ci.yaml/badge.svg" alt="CI"></a>
 <a href="https://github.com/mariadb-operator/mariadb-operator-helm/actions/workflows/bundle.yaml"><img src="https://github.com/mariadb-operator/mariadb-operator-helm/actions/workflows/bundle.yaml/badge.svg" alt="Bundle"></a>
 <a href="https://github.com/mariadb-operator/mariadb-operator-helm/actions/workflows/release.yaml"><img src="https://github.com/mariadb-operator/mariadb-operator-helm/actions/workflows/release.yaml/badge.svg" alt="Release"></a>
-<a href="https://join.slack.com/t/mariadb-operator/shared_invite/zt-1xsfguxlf-dhtV6zk0HwlAh_U2iYfUxw"><img alt="Slack" src="https://img.shields.io/badge/slack-join_chat-blue?logo=Slack&label=slack&style=flat"></a>
 </p>
 
 <p align="center">
+<a href="https://join.slack.com/t/mariadb-operator/shared_invite/zt-1xsfguxlf-dhtV6zk0HwlAh_U2iYfUxw"><img alt="Slack" src="https://img.shields.io/badge/slack-join_chat-blue?logo=Slack&label=slack&style=flat"></a>
 <a href="https://operatorhub.io/operator/mariadb-operator"><img src="https://img.shields.io/badge/Operator%20Hub-mariadb--operator-red" alt="Operator Hub"></a>
 <a href="https://artifacthub.io/packages/olm/community-operators/mariadb-operator"><img src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/mariadb-operator" alt="Artifact Hub"></a>
 </p>
