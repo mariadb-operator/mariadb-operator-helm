@@ -6,10 +6,10 @@
 <a href="https://github.com/mariadb-operator/mariadb-operator-helm/actions/workflows/ci.yaml"><img src="https://github.com/mariadb-operator/mariadb-operator-helm/actions/workflows/ci.yaml/badge.svg" alt="CI"></a>
 <a href="https://github.com/mariadb-operator/mariadb-operator-helm/actions/workflows/bundle.yaml"><img src="https://github.com/mariadb-operator/mariadb-operator-helm/actions/workflows/bundle.yaml/badge.svg" alt="Bundle"></a>
 <a href="https://github.com/mariadb-operator/mariadb-operator-helm/actions/workflows/release.yaml"><img src="https://github.com/mariadb-operator/mariadb-operator-helm/actions/workflows/release.yaml/badge.svg" alt="Release"></a>
-<a href="https://join.slack.com/t/mariadb-operator/shared_invite/zt-1xsfguxlf-dhtV6zk0HwlAh_U2iYfUxw"><img alt="Slack" src="https://img.shields.io/badge/slack-join_chat-blue?logo=Slack&label=slack&style=flat"></a>
 </p>
 
 <p align="center">
+<a href="https://join.slack.com/t/mariadb-operator/shared_invite/zt-1xsfguxlf-dhtV6zk0HwlAh_U2iYfUxw"><img alt="Slack" src="https://img.shields.io/badge/slack-join_chat-blue?logo=Slack&label=slack&style=flat"></a>
 <a href="https://operatorhub.io/operator/mariadb-operator"><img src="https://img.shields.io/badge/Operator%20Hub-mariadb--operator-red" alt="Operator Hub"></a>
 <a href="https://artifacthub.io/packages/olm/community-operators/mariadb-operator"><img src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/mariadb-operator" alt="Artifact Hub"></a>
 </p>
@@ -33,7 +33,6 @@ metrics:
   serviceMonitor:
     enabled: true
 webhook:
-  enabled: true
   certificate:
     certManager: true
 ```
@@ -56,7 +55,6 @@ spec:
     serviceMonitor:
       enabled: true
   webhook:
-    enabled: true
     certificate:
       certManager: true
 ```
@@ -73,10 +71,10 @@ This operator is automatically published in the following repositories whenever 
 - [redhat-openshift-ecosystem/community-operators-prod](https://github.com/redhat-openshift-ecosystem/community-operators-prod)
 
 ## Roadmap
-Take a look at our [🛣️ roadmap](https://github.com/mariadb-operator/mariadb-operator/blob/main/ROADMAP.md) and feel free to open an issue to suggest new features.
+Take a look at our [roadmap](https://github.com/mariadb-operator/mariadb-operator/blob/main/ROADMAP.md) and feel free to open an issue to suggest new features.
 
 ## Contributing
-If you want to report a 🐛 or you think something can be improved, please check our [contributing](https://github.com/mariadb-operator/mariadb-operator/blob/main/CONTRIBUTING.md) guide and take a look at our open [issues](https://github.com/mariadb-operator/mariadb-operator/issues). PRs are welcome!
+We welcome and encourage contributions to this project! Please check our [contributing](https://github.com/mariadb-operator/mariadb-operator/blob/main/CONTRIBUTING.md) and [development](https://github.com/mariadb-operator/mariadb-operator/blob/main/docs/DEVELOPMENT.md) guides. PRs welcome!
 
 ## Get in touch
 - [Slack](https://join.slack.com/t/mariadb-operator/shared_invite/zt-1uqe7lbee-bINmUwnzPm0C5MLw1qWAow)

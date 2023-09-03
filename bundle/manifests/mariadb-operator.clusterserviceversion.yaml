@@ -52,7 +52,6 @@ metadata:
                 },
                 "path": "/tmp/k8s-webhook-server/serving-certs"
               },
-              "enabled": true,
               "hostNetwork": false,
               "image": {
                 "pullPolicy": "IfNotPresent",
