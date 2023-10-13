@@ -65,6 +65,10 @@ spec:
         # versions < 1.19 or on vendors versions which do NOT support this field by default (i.e. Openshift < 4.11 ).
         # seccompProfile:
         #   type: RuntimeDefault
+      # Clean up old ReplicaSets. After making manual changes in the CSV, ReplicaSet is downscaled instead of deleted:
+      # https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#revision-history-limit
+      # https://github.com/mariadb-operator/mariadb-operator/issues/251#issuecomment-1760467114
+      revisionHistoryLimit: 0
       containers:
         - args:
             - --leader-elect
@@ -93,7 +97,7 @@ spec:
           resources:
             limits:
               cpu: 500m
-              memory: 256Mi
+              memory: 512Mi
             requests:
               cpu: 10m
               memory: 128Mi

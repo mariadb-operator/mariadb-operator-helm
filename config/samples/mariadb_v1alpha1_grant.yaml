@@ -13,3 +13,5 @@ spec:
   table: "*"
   username: user
   grantOption: true
+  host: "%"
+  retryInterval: 5s

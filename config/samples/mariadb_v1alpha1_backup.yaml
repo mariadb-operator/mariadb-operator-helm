@@ -9,13 +9,11 @@ spec:
     cron: "*/1 * * * *"
     suspend: false
   maxRetentionDays: 30
-  physical: true
   storage:
     persistentVolumeClaim:
       resources:
         requests:
           storage: 100Mi
-      storageClassName: standard
       accessModes:
         - ReadWriteOnce
   resources:
