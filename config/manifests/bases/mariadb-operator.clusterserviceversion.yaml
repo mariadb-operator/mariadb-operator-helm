@@ -5,7 +5,7 @@ metadata:
     alm-examples: '[]'
     capabilities: Deep Insights
     categories: Database
-    containerImage: ghcr.io/mariadb-operator/mariadb-operator-helm:0.21.0
+    containerImage: ghcr.io/mariadb-operator/mariadb-operator-helm:0.22.0
     description: Run and operate MariaDB in a cloud native way
     repository: https://github.com/mariadb-operator/mariadb-operator
   name: mariadb-operator.v0.0.0
