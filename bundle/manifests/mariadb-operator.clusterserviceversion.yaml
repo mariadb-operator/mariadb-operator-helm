@@ -85,7 +85,6 @@ metadata:
               "name": "mariadb"
             },
             "maxRetentionDays": 30,
-            "physical": true,
             "resources": {
               "limits": {
                 "cpu": "300m",
@@ -109,8 +108,7 @@ metadata:
                   "requests": {
                     "storage": "100Mi"
                   }
-                },
-                "storageClassName": "standard"
+                }
               }
             }
           }
@@ -142,11 +140,17 @@ metadata:
               "annotations": {
                 "mariadb.mmontes.io/connection": "sample"
               },
+              "databaseKey": "database",
+              "hostKey": "host",
               "key": "dsn",
               "labels": {
                 "mariadb.mmontes.io/connection": "sample"
-              }
+              },
+              "passwordKey": "password",
+              "portKey": "port",
+              "usernameKey": "username"
             },
+            "serviceName": "mariadb",
             "username": "mariadb"
           }
         },
@@ -154,14 +158,15 @@ metadata:
           "apiVersion": "mariadb.mmontes.io/v1alpha1",
           "kind": "Database",
           "metadata": {
-            "name": "database"
+            "name": "data-test"
           },
           "spec": {
             "characterSet": "utf8",
             "collate": "utf8_general_ci",
             "mariaDbRef": {
               "name": "mariadb"
-            }
+            },
+            "retryInterval": "5s"
           }
         },
         {
@@ -173,6 +178,7 @@ metadata:
           "spec": {
             "database": "*",
             "grantOption": true,
+            "host": "%",
             "mariaDbRef": {
               "name": "mariadb"
             },
@@ -181,6 +187,7 @@ metadata:
               "INSERT",
               "UPDATE"
             ],
+            "retryInterval": "5s",
             "table": "*",
             "username": "user"
           }
@@ -212,11 +219,8 @@ metadata:
                 }
               }
             ],
-            "image": {
-              "pullPolicy": "IfNotPresent",
-              "repository": "mariadb",
-              "tag": "10.7.4"
-            },
+            "image": "mariadb:11.0.3",
+            "imagePullPolicy": "IfNotPresent",
             "passwordSecretKeyRef": {
               "key": "password",
               "name": "mariadb"
@@ -291,7 +295,11 @@ metadata:
               "key": "password",
               "name": "mariadb"
             },
-            "sql": "CREATE TABLE IF NOT EXISTS users (\n  id bigint PRIMARY KEY AUTO_INCREMENT,\n  username varchar(255) NOT NULL,\n  email varchar(255) NOT NULL,\n  UNIQUE KEY name__unique_idx (username),\n  UNIQUE KEY email__unique_idx (email)\n);\n",
+            "schedule": {
+              "cron": "*/1 * * * *",
+              "suspend": false
+            },
+            "sql": "CREATE TABLE IF NOT EXISTS users (\n  id bigint PRIMARY KEY AUTO_INCREMENT,\n  username varchar(255) NOT NULL,\n  UNIQUE KEY name__unique_idx (username)\n);\nINSERT INTO users(username) VALUES('mmontes11') \n  ON DUPLICATE KEY UPDATE id=id;\nCREATE TABLE IF NOT EXISTS repos (\n  id bigint PRIMARY KEY AUTO_INCREMENT,\n  name varchar(255) NOT NULL,\n  owner_id bigint NOT NULL,\n  UNIQUE KEY name__unique_idx (name),\n  FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE\n);\nINSERT INTO repos(name, owner_id) VALUES('mariadb-operator', (SELECT id FROM users WHERE username = 'mmontes11'))\n  ON DUPLICATE KEY UPDATE id=id;\nINSERT INTO repos(name, owner_id) VALUES('mariadb-operator-helm', (SELECT id FROM users WHERE username = 'mmontes11'))\n  ON DUPLICATE KEY UPDATE id=id;\nINSERT INTO repos(name, owner_id) VALUES('mariadb-ha-poc', (SELECT id FROM users WHERE username = 'mmontes11'))\n  ON DUPLICATE KEY UPDATE id=id;",
             "username": "mariadb"
           }
         },

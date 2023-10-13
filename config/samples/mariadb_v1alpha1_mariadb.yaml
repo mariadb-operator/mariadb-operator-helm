@@ -13,10 +13,8 @@ spec:
     name: mariadb
     key: password
 
-  image:
-    repository: mariadb
-    tag: "10.7.4"
-    pullPolicy: IfNotPresent
+  image: mariadb:11.0.3
+  imagePullPolicy: IfNotPresent
 
   port: 3306
 
