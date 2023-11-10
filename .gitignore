@@ -5,3 +5,6 @@ helm-charts/*
 
 community-operators/
 community-operators-prod/
+
+# Git
+.gitconfig
