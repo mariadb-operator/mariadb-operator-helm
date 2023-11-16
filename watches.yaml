@@ -3,7 +3,4 @@
   version: v1alpha1
   kind: MariadbOperator
   chart: helm-charts/mariadb-operator
-  watchDependentResources: false
-  overrideValues:
-    'webhook.certificate.default.hook': "pre-install"
 #+kubebuilder:scaffold:watch
