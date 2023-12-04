@@ -56,7 +56,8 @@ spec:
       enabled: true
   webhook:
     cert:
-      certManager: true
+      certManager:
+        enabled: true
 ```
 
 Once you have installed the operator, you are able to install a `MariaDB` instance. Refer to the documentation for getting started with the rest of CRDs.
