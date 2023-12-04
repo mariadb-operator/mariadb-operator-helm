@@ -34,7 +34,8 @@ metrics:
     enabled: true
 webhook:
   cert:
-    certManager: true
+    certManager:
+      enabled: true
 ```
 
 This helm chart installation is abstracted in the `MariadbOperator` CRD, which will be reconciled by the current helm operator:
