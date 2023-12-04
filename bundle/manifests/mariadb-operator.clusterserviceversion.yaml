@@ -12,11 +12,53 @@ metadata:
           },
           "spec": {
             "affinity": {},
+            "certController": {
+              "affinity": {},
+              "caValidity": "35064h",
+              "certValidity": "8766h",
+              "enabled": true,
+              "extrArgs": [],
+              "extraVolumeMounts": [],
+              "extraVolumes": [],
+              "ha": {
+                "enabled": false,
+                "replicas": 3
+              },
+              "image": {
+                "pullPolicy": "IfNotPresent",
+                "repository": "ghcr.io/mariadb-operator/mariadb-operator",
+                "tag": ""
+              },
+              "imagePullSecrets": [],
+              "lookaheadValidity": "2160h",
+              "nodeSelector": {},
+              "podAnnotations": {},
+              "podSecurityContext": {},
+              "requeueDuration": "5m",
+              "resources": {},
+              "securityContext": {},
+              "serviceAccount": {
+                "annotations": {},
+                "automount": true,
+                "enabled": true,
+                "extraLabels": {},
+                "name": ""
+              },
+              "serviceMonitor": {
+                "additionalLabels": {},
+                "enabled": true,
+                "interval": "30s",
+                "scrapeTimeout": "25s"
+              },
+              "tolerations": []
+            },
             "clusterName": "cluster.local",
+            "extrArgs": [],
+            "extraVolumeMounts": [],
+            "extraVolumes": [],
             "fullnameOverride": "",
             "ha": {
               "enabled": false,
-              "leaseId": "mariadb.mmontes.io",
               "replicas": 3
             },
             "image": {
@@ -24,6 +66,7 @@ metadata:
               "repository": "ghcr.io/mariadb-operator/mariadb-operator",
               "tag": ""
             },
+            "imagePullSecrets": [],
             "logLevel": "INFO",
             "metrics": {
               "enabled": false,
@@ -38,19 +81,39 @@ metadata:
             "nodeSelector": {},
             "podAnnotations": {},
             "podSecurityContext": {},
+            "rbac": {
+              "enabled": true
+            },
             "resources": {},
             "securityContext": {},
+            "serviceAccount": {
+              "annotations": {},
+              "automount": true,
+              "enabled": true,
+              "extraLabels": {},
+              "name": ""
+            },
             "tolerations": [],
             "webhook": {
               "affinity": {},
-              "certificate": {
-                "certManager": false,
-                "default": {
-                  "annotations": {},
-                  "caExpirationDays": 365,
-                  "certExpirationDays": 365
+              "annotations": {},
+              "cert": {
+                "caPath": "/tmp/k8s-webhook-server/certificate-authority",
+                "certManager": {
+                  "duration": "",
+                  "enabled": false,
+                  "issuerRef": {},
+                  "renewBefore": ""
                 },
-                "path": "/tmp/k8s-webhook-server/serving-certs"
+                "path": "/tmp/k8s-webhook-server/serving-certs",
+                "secretAnnotations": {}
+              },
+              "extrArgs": [],
+              "extraVolumeMounts": [],
+              "extraVolumes": [],
+              "ha": {
+                "enabled": false,
+                "replicas": 3
               },
               "hostNetwork": false,
               "image": {
@@ -58,12 +121,20 @@ metadata:
                 "repository": "ghcr.io/mariadb-operator/mariadb-operator",
                 "tag": ""
               },
+              "imagePullSecrets": [],
               "nodeSelector": {},
               "podAnnotations": {},
               "podSecurityContext": {},
               "port": 10250,
               "resources": {},
               "securityContext": {},
+              "serviceAccount": {
+                "annotations": {},
+                "automount": true,
+                "enabled": true,
+                "extraLabels": {},
+                "name": ""
+              },
               "serviceMonitor": {
                 "additionalLabels": {},
                 "enabled": true,
