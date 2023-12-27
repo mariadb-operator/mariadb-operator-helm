@@ -453,7 +453,7 @@ spec:
   description: |
     Install [`mariadb-operator`](https://github.com/mariadb-operator/mariadb-operator) via [OLM](https://olm.operatorframework.io/) using the [helm chart](https://artifacthub.io/packages/helm/mariadb-operator/mariadb-operator).
 
-    This helm operator provides provides a 1:1 mapping between the official [helm chart](https://artifacthub.io/packages/helm/mariadb-operator/mariadb-operator) and the [`MariadbOperator`](https://github.com/mariadb-operator/mariadb-operator-helm/blob/main/config/samples/helm_v1alpha1_mariadboperator.yaml) CRD, allowing to install [`mariadb-operator`](https://github.com/mariadb-operator/mariadb-operator) via OLM without having to do any change in the helm chart.
+    This helm operator provides provides a 1:1 mapping between the official helm chart and the [`MariadbOperator`](https://github.com/mariadb-operator/mariadb-operator-helm/blob/main/config/samples/helm_v1alpha1_mariadboperator.yaml) CRD, allowing to install [`mariadb-operator`](https://github.com/mariadb-operator/mariadb-operator) via OLM without having to do any change in the helm chart.
 
     Normally, you would install [`mariadb-operator`](https://github.com/mariadb-operator/mariadb-operator) providing this `values.yaml` to the helm chart:
     ```yaml
