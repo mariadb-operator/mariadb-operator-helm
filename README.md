@@ -16,11 +16,11 @@
 
 # 🦭 mariadb-operator-helm
 
-Install [mariadb-operator](https://github.com/mariadb-operator/mariadb-operator) via [OLM](https://olm.operatorframework.io/) using the [helm chart](https://artifacthub.io/packages/helm/mariadb-operator/mariadb-operator).
+Install [`mariadb-operator`](https://github.com/mariadb-operator/mariadb-operator) via [OLM](https://olm.operatorframework.io/) using the [helm chart](https://artifacthub.io/packages/helm/mariadb-operator/mariadb-operator).
 
-This is the Operator SDK version of `mariadb-operator`. It provides a 1:1 mapping between the official helm chart and the [`MariadbOperator`](https://github.com/mariadb-operator/mariadb-operator-helm/blob/main/config/samples/helm_v1alpha1_mariadboperator.yaml) CRD, allowing to install `mariadb-operator` via OLM without having to do any change in the helm chart.
+This helm operator provides provides a 1:1 mapping between the official [helm chart](https://artifacthub.io/packages/helm/mariadb-operator/mariadb-operator) and the [`MariadbOperator`](https://github.com/mariadb-operator/mariadb-operator-helm/blob/main/config/samples/helm_v1alpha1_mariadboperator.yaml) CRD, allowing to install [`mariadb-operator`](https://github.com/mariadb-operator/mariadb-operator) via OLM without having to do any change in the helm chart.
 
-Normally, you would install `mariadb-operator` providing this `values.yaml` to the helm chart:
+Normally, you would install [`mariadb-operator`](https://github.com/mariadb-operator/mariadb-operator) providing this `values.yaml` to the helm chart:
 ```yaml
 image:
   repository: ghcr.io/mariadb-operator/mariadb-operator
@@ -38,7 +38,7 @@ webhook:
       enabled: true
 ```
 
-This helm chart installation is abstracted in the `MariadbOperator` CRD, which will be reconciled by the current helm operator:
+This helm chart installation is abstracted in the [`MariadbOperator`](https://github.com/mariadb-operator/mariadb-operator-helm/blob/main/config/samples/helm_v1alpha1_mariadboperator.yaml) CRD, which will be reconciled by the helm operator:
 ```yaml
 apiVersion: helm.mariadb.mmontes.io/v1alpha1
 kind: MariadbOperator
@@ -61,7 +61,7 @@ spec:
         enabled: true
 ```
 
-Once you have installed the operator, you are able to install a `MariaDB` instance. Refer to the main [mariadb-operator](https://github.com/mariadb-operator/mariadb-operator) documentation for getting started with the rest of CRDs.
+Once you have installed the operator, you will able to install a [`MariaDB`](https://github.com/mariadb-operator/mariadb-operator/blob/main/examples/manifests/mariadb_v1alpha1_mariadb.yaml) instance. Refer to the main [mariadb-operator](https://github.com/mariadb-operator/mariadb-operator) documentation for getting started with the rest of CRDs.
 
 ## Documentation
 * [mariadb-operator](https://github.com/mariadb-operator/mariadb-operator/blob/main/README.md)
