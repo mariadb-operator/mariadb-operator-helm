@@ -105,7 +105,7 @@ spec:
             enabled: true
     ```
 
-    Once you have installed the operator, you will able to install a [`MariaDB`](https://github.com/mariadb-operator/mariadb-operator/blob/main/examples/manifests/mariadb_v1alpha1_mariadb.yaml) instance. Refer to the main [mariadb-operator](https://github.com/mariadb-operator/mariadb-operator) documentation for getting started with the rest of CRDs.
+    Once you have installed the operator, you will able to install a [`MariaDB`](https://github.com/mariadb-operator/mariadb-operator/blob/main/examples/manifests/mariadb_v1alpha1_mariadb.yaml) instance. Refer to the main [`mariadb-operator`](https://github.com/mariadb-operator/mariadb-operator) documentation for getting started with the rest of CRDs.
 
     ## Documentation
     * [mariadb-operator](https://github.com/mariadb-operator/mariadb-operator/blob/main/README.md)
