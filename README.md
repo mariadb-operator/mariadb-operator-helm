@@ -61,7 +61,7 @@ spec:
         enabled: true
 ```
 
-Once you have installed the operator, you are able to install a `MariaDB` instance. Refer to the documentation for getting started with the rest of CRDs.
+Once you have installed the operator, you are able to install a `MariaDB` instance. Refer to the main [mariadb-operator](https://github.com/mariadb-operator/mariadb-operator) documentation for getting started with the rest of CRDs.
 
 ## Documentation
 * [mariadb-operator](https://github.com/mariadb-operator/mariadb-operator/blob/main/README.md)
@@ -79,5 +79,5 @@ Take a look at our [roadmap](https://github.com/mariadb-operator/mariadb-operato
 We welcome and encourage contributions to this project! Please check our [contributing](https://github.com/mariadb-operator/mariadb-operator/blob/main/CONTRIBUTING.md) and [development](https://github.com/mariadb-operator/mariadb-operator/blob/main/docs/DEVELOPMENT.md) guides. PRs welcome!
 
 ## Get in touch
-- [Slack](https://join.slack.com/t/mariadb-operator/shared_invite/zt-1uqe7lbee-bINmUwnzPm0C5MLw1qWAow)
+- [Slack](https://r.mariadb.com/join-community-slack)
 - mariadb-operator@proton.me
