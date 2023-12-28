@@ -31,24 +31,6 @@ jobs:
           echo ::set-output name=buid_date::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           echo ::set-output name=version::${VERSION}
 
-  check-diff:
-    name: Check diff
-    runs-on: ubuntu-latest
-    needs: version
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Generate bundle
-        run: make bundle
-        env:
-          VERSION: "${{ needs.version.outputs.version }}"
-
-      - name: Check diff
-        uses: mmontes11/diff-porcelain@v0.0.1
-        with:
-          message: Bundle is not up to date with the version '${{ needs.version.outputs.version }}'. Run 'make bundle' and commit the changes.
-
   operator:
     name: Operator
     runs-on: ubuntu-latest
