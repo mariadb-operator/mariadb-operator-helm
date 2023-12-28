@@ -8,6 +8,7 @@ metadata:
     containerImage: ghcr.io/mariadb-operator/mariadb-operator-helm:0.24.0
     description: Run and operate MariaDB in a cloud native way
     repository: https://github.com/mariadb-operator/mariadb-operator
+    support: mariadb-operator
   name: mariadb-operator.v0.0.0
   namespace: placeholder
 spec:
