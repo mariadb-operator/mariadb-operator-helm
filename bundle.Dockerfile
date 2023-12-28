@@ -10,6 +10,9 @@ LABEL operators.operatorframework.io.bundle.channel.default.v1=alpha
 LABEL operators.operatorframework.io.metrics.builder=operator-sdk-v1.26.0
 LABEL operators.operatorframework.io.metrics.mediatype.v1=metrics+v1
 LABEL operators.operatorframework.io.metrics.project_layout=helm.sdk.operatorframework.io/v1
+LABEL com.redhat.openshift.versions=v4.12
+LABEL com.redhat.delivery.operator.bundle=true
+LABEL com.redhat.delivery.backport=false
 
 # Labels for testing.
 LABEL operators.operatorframework.io.test.mediatype.v1=scorecard+v1
