@@ -146,13 +146,10 @@ spec:
   keywords:
     - mariadb
     - mysql
+    - operator
     - mariadb-operator
     - database
-    - sql
-    - backup
-    - restore
-    - storage
-    - helm
+    - maxscale
   links:
     - name: GitHub
       url: https://github.com/mariadb-operator/mariadb-operator

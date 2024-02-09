@@ -395,7 +395,7 @@ metadata:
     capabilities: Deep Insights
     categories: Database
     containerImage: ghcr.io/mariadb-operator/mariadb-operator-helm:0.24.0
-    createdAt: "2024-02-07T18:24:00Z"
+    createdAt: "2024-02-09T17:54:53Z"
     description: Run and operate MariaDB in a cloud native way
     operators.operatorframework.io/builder: operator-sdk-v1.26.0
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
@@ -716,13 +716,10 @@ spec:
   keywords:
   - mariadb
   - mysql
+  - operator
   - mariadb-operator
   - database
-  - sql
-  - backup
-  - restore
-  - storage
-  - helm
+  - maxscale
   links:
   - name: GitHub
     url: https://github.com/mariadb-operator/mariadb-operator
