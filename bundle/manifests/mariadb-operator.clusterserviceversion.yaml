@@ -327,6 +327,102 @@ metadata:
         },
         {
           "apiVersion": "mariadb.mmontes.io/v1alpha1",
+          "kind": "MaxScale",
+          "metadata": {
+            "name": "maxscale-galera"
+          },
+          "spec": {
+            "admin": {
+              "guiEnabled": true,
+              "port": 8989
+            },
+            "auth": {
+              "adminPasswordSecretKeyRef": {
+                "key": "password",
+                "name": "maxscale"
+              },
+              "adminUsername": "mariadb-operator",
+              "generate": true
+            },
+            "config": {
+              "sync": {
+                "database": "mysql",
+                "interval": "5s",
+                "timeout": "10s"
+              }
+            },
+            "connection": {
+              "port": 3306,
+              "secretName": "mxs-galera-conn"
+            },
+            "kubernetesService": {
+              "annotations": {
+                "metallb.universe.tf/loadBalancerIPs": "172.18.0.224"
+              },
+              "type": "LoadBalancer"
+            },
+            "mariaDbRef": {
+              "name": "mariadb-galera"
+            },
+            "monitor": {
+              "cooperativeMonitoring": "majority_of_all",
+              "interval": "2s",
+              "params": {
+                "available_when_donor": "false",
+                "disable_master_failback": "false",
+                "disable_master_role_setting": "false"
+              }
+            },
+            "replicas": 3,
+            "requeueInterval": "10s",
+            "services": [
+              {
+                "listener": {
+                  "params": {
+                    "connection_metadata": "tx_isolation=auto"
+                  },
+                  "port": 3306,
+                  "protocol": "MariaDBProtocol"
+                },
+                "name": "rw-router",
+                "params": {
+                  "master_accept_reads": "true",
+                  "max_replication_lag": "3s",
+                  "max_slave_connections": "255",
+                  "transaction_replay": "true",
+                  "transaction_replay_attempts": "10",
+                  "transaction_replay_timeout": "5s"
+                },
+                "router": "readwritesplit"
+              },
+              {
+                "listener": {
+                  "port": 3307
+                },
+                "name": "rconn-master-router",
+                "params": {
+                  "master_accept_reads": "true",
+                  "max_replication_lag": "3s",
+                  "router_options": "master"
+                },
+                "router": "readconnroute"
+              },
+              {
+                "listener": {
+                  "port": 3308
+                },
+                "name": "rconn-slave-router",
+                "params": {
+                  "max_replication_lag": "3s",
+                  "router_options": "slave"
+                },
+                "router": "readconnroute"
+              }
+            ]
+          }
+        },
+        {
+          "apiVersion": "mariadb.mmontes.io/v1alpha1",
           "kind": "Restore",
           "metadata": {
             "name": "restore"
@@ -394,14 +490,14 @@ metadata:
       ]
     capabilities: Deep Insights
     categories: Database
-    containerImage: ghcr.io/mariadb-operator/mariadb-operator-helm:0.24.0
-    createdAt: "2024-02-09T17:54:53Z"
+    containerImage: ghcr.io/mariadb-operator/mariadb-operator-helm:0.25.0
+    createdAt: "2024-02-10T11:24:43Z"
     description: Run and operate MariaDB in a cloud native way
     operators.operatorframework.io/builder: operator-sdk-v1.26.0
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
     repository: https://github.com/mariadb-operator/mariadb-operator
     support: mariadb-operator
-  name: mariadb-operator.v0.24.0
+  name: mariadb-operator.v0.25.0
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -436,6 +532,11 @@ spec:
       displayName: MariaDB
       kind: MariaDB
       name: mariadbs.mariadb.mmontes.io
+      version: v1alpha1
+    - description: Defines a MaxScale database proxy
+      displayName: MaxScale
+      kind: MaxScale
+      name: maxscales.mariadb.mmontes.io
       version: v1alpha1
     - description: Restores a backup
       displayName: Restore
@@ -639,7 +740,7 @@ spec:
               - args:
                 - --leader-elect
                 - --leader-election-id=helm-operator
-                image: ghcr.io/mariadb-operator/mariadb-operator-helm:0.24.0
+                image: ghcr.io/mariadb-operator/mariadb-operator-helm:0.25.0
                 livenessProbe:
                   httpGet:
                     path: /healthz
@@ -731,4 +832,4 @@ spec:
   provider:
     name: mariadb-operator
     url: https://github.com/mariadb-operator/mariadb-operator
-  version: 0.24.0
+  version: 0.25.0
