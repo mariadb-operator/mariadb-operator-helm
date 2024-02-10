@@ -60,6 +60,11 @@ spec:
         kind: User
         name: users.mariadb.mmontes.io
         version: v1alpha1
+      - description: Defines a MaxScale database proxy
+        displayName: MaxScale
+        kind: MaxScale
+        name: maxscales.mariadb.mmontes.io
+        version: v1alpha1
   description: |
     Install [`mariadb-operator`](https://github.com/mariadb-operator/mariadb-operator) via [OLM](https://olm.operatorframework.io/) using the [helm chart](https://artifacthub.io/packages/helm/mariadb-operator/mariadb-operator).
 
