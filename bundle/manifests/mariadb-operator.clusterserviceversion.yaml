@@ -491,7 +491,7 @@ metadata:
     capabilities: Deep Insights
     categories: Database
     containerImage: ghcr.io/mariadb-operator/mariadb-operator-helm:0.25.0
-    createdAt: "2024-02-10T11:24:43Z"
+    createdAt: "2024-02-10T11:33:45Z"
     description: Run and operate MariaDB in a cloud native way
     operators.operatorframework.io/builder: operator-sdk-v1.26.0
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
