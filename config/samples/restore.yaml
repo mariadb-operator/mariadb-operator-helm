@@ -1,4 +1,4 @@
-apiVersion: mariadb.mmontes.io/v1alpha1
+apiVersion: k8s.mariadb.com/v1alpha1
 kind: Restore
 metadata:
   name: restore
@@ -6,8 +6,8 @@ spec:
   mariaDbRef:
     name: mariadb
   backupRef:
-    name: backup-scheduled
-  targetRecoveryTime: 2023-01-02T21:35:01Z
+    name: backup
+  targetRecoveryTime: 2023-12-19T09:00:00Z
   resources:
     requests:
       cpu: 100m

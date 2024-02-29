@@ -1,0 +1,54 @@
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: MariaDB
+metadata:
+  name: mariadb
+spec:
+  username: mariadb
+  database: mariadb
+
+  storage:
+    size: 1Gi
+
+  replicas: 3
+
+  galera:
+    enabled: true
+
+  service:
+    type: ClusterIP
+  connection:
+    secretName: mariadb-repl-conn
+    secretTemplate:
+      key: dsn
+  primaryService:
+    type: ClusterIP
+  primaryConnection:
+    secretName: mariadb-repl-conn-primary
+    secretTemplate:
+      key: dsn
+  secondaryService:
+    type: ClusterIP
+  secondaryConnection:
+    secretName: mariadb-repl-conn-secondary
+    secretTemplate:
+      key: dsn
+
+  affinity:
+    enableAntiAffinity: true
+
+  podDisruptionBudget:
+    maxUnavailable: 33%
+
+  updateStrategy:
+    type: RollingUpdate
+
+  myCnf: |
+    [mariadb]
+    bind-address=*
+    default_storage_engine=InnoDB
+    binlog_format=row
+    innodb_autoinc_lock_mode=2
+    max_allowed_packet=256M
+
+  metrics:
+    enabled: true

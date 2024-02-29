@@ -1,8 +1,10 @@
-apiVersion: mariadb.mmontes.io/v1alpha1
+apiVersion: k8s.mariadb.com/v1alpha1
 kind: Database
 metadata:
   name: data-test
 spec:
+  # If you want the database to be created with a different name than the resource name
+  # name: data-custom
   mariaDbRef:
     name: mariadb
   characterSet: utf8
