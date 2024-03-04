@@ -23,47 +23,47 @@ spec:
       - description: Provisions a MariaDB instance
         displayName: MariaDB
         kind: MariaDB
-        name: mariadbs.mariadb.mmontes.io
+        name: mariadbs.k8s.mariadb.com
         version: v1alpha1
       - description: Configures a backup
         displayName: Backup
         kind: Backup
-        name: backups.mariadb.mmontes.io
+        name: backups.k8s.mariadb.com
         version: v1alpha1
       - description: Configures a connection
         displayName: Connection
         kind: Connection
-        name: connections.mariadb.mmontes.io
+        name: connections.k8s.mariadb.com
         version: v1alpha1
       - description: Restores a backup
         displayName: Restore
         kind: Restore
-        name: restores.mariadb.mmontes.io
+        name: restores.k8s.mariadb.com
         version: v1alpha1
       - description: Defines a logical database
         displayName: Database
         kind: Database
-        name: databases.mariadb.mmontes.io
+        name: databases.k8s.mariadb.com
         version: v1alpha1
       - description: Grants permissions to an user in a database
         displayName: Grant
         kind: Grant
-        name: grants.mariadb.mmontes.io
+        name: grants.k8s.mariadb.com
         version: v1alpha1
       - description: Defines a SQL job
         displayName: SqlJob
         kind: SqlJob
-        name: sqljobs.mariadb.mmontes.io
+        name: sqljobs.k8s.mariadb.com
         version: v1alpha1
       - description: Defines a user
         displayName: User
         kind: User
-        name: users.mariadb.mmontes.io
+        name: users.k8s.mariadb.com
         version: v1alpha1
       - description: Defines a MaxScale database proxy
         displayName: MaxScale
         kind: MaxScale
-        name: maxscales.mariadb.mmontes.io
+        name: maxscales.k8s.mariadb.com
         version: v1alpha1
   description: |
     Install [`mariadb-operator`](https://github.com/mariadb-operator/mariadb-operator) via [OLM](https://olm.operatorframework.io/) using the [helm chart](https://artifacthub.io/packages/helm/mariadb-operator/mariadb-operator).
@@ -90,7 +90,7 @@ spec:
 
     This helm chart installation is abstracted in the [`MariadbOperator`](https://github.com/mariadb-operator/mariadb-operator-helm/blob/main/config/samples/helm_v1alpha1_mariadboperator.yaml) CRD, which will be reconciled by the helm operator:
     ```yaml
-    apiVersion: helm.mariadb.mmontes.io/v1alpha1
+    apiVersion: helm.k8s.mariadb.com/v1alpha1
     kind: MariadbOperator
     metadata:
       name: mariadb-operator

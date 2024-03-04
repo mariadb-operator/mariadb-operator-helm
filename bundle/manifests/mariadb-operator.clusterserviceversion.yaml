@@ -511,7 +511,7 @@ metadata:
     capabilities: Deep Insights
     categories: Database
     containerImage: ghcr.io/mariadb-operator/mariadb-operator-helm:0.26.0
-    createdAt: "2024-03-04T11:50:18Z"
+    createdAt: "2024-03-04T12:01:32Z"
     description: Run and operate MariaDB in a cloud native way
     operators.operatorframework.io/builder: operator-sdk-v1.26.0
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
@@ -523,16 +523,24 @@ spec:
   apiservicedefinitions: {}
   customresourcedefinitions:
     owned:
-    - kind: Backup
+    - description: Configures a backup
+      displayName: Backup
+      kind: Backup
       name: backups.k8s.mariadb.com
       version: v1alpha1
-    - kind: Connection
+    - description: Configures a connection
+      displayName: Connection
+      kind: Connection
       name: connections.k8s.mariadb.com
       version: v1alpha1
-    - kind: Database
+    - description: Defines a logical database
+      displayName: Database
+      kind: Database
       name: databases.k8s.mariadb.com
       version: v1alpha1
-    - kind: Grant
+    - description: Grants permissions to an user in a database
+      displayName: Grant
+      kind: Grant
       name: grants.k8s.mariadb.com
       version: v1alpha1
     - description: Configures MariaDB helm chart based operator
@@ -540,19 +548,29 @@ spec:
       kind: MariadbOperator
       name: mariadboperators.helm.mariadb.mmontes.io
       version: v1alpha1
-    - kind: MariaDB
+    - description: Provisions a MariaDB instance
+      displayName: MariaDB
+      kind: MariaDB
       name: mariadbs.k8s.mariadb.com
       version: v1alpha1
-    - kind: MaxScale
+    - description: Defines a MaxScale database proxy
+      displayName: MaxScale
+      kind: MaxScale
       name: maxscales.k8s.mariadb.com
       version: v1alpha1
-    - kind: Restore
+    - description: Restores a backup
+      displayName: Restore
+      kind: Restore
       name: restores.k8s.mariadb.com
       version: v1alpha1
-    - kind: SqlJob
+    - description: Defines a SQL job
+      displayName: SqlJob
+      kind: SqlJob
       name: sqljobs.k8s.mariadb.com
       version: v1alpha1
-    - kind: User
+    - description: Defines a user
+      displayName: User
+      kind: User
       name: users.k8s.mariadb.com
       version: v1alpha1
   description: |
@@ -580,7 +598,7 @@ spec:
 
     This helm chart installation is abstracted in the [`MariadbOperator`](https://github.com/mariadb-operator/mariadb-operator-helm/blob/main/config/samples/helm_v1alpha1_mariadboperator.yaml) CRD, which will be reconciled by the helm operator:
     ```yaml
-    apiVersion: helm.mariadb.mmontes.io/v1alpha1
+    apiVersion: helm.k8s.mariadb.com/v1alpha1
     kind: MariadbOperator
     metadata:
       name: mariadb-operator
