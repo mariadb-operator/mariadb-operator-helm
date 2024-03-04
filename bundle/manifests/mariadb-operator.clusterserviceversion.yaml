@@ -144,67 +144,416 @@ metadata:
               "tolerations": []
             }
           }
+        },
+        {
+          "apiVersion": "k8s.mariadb.com/v1alpha1",
+          "kind": "Backup",
+          "metadata": {
+            "name": "backup"
+          },
+          "spec": {
+            "args": [
+              "--single-transaction",
+              "--all-databases"
+            ],
+            "logLevel": "info",
+            "mariaDbRef": {
+              "name": "mariadb"
+            },
+            "maxRetention": "720h",
+            "resources": {
+              "limits": {
+                "cpu": "300m",
+                "memory": "512Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "128Mi"
+              }
+            },
+            "schedule": {
+              "cron": "*/1 * * * *",
+              "suspend": false
+            },
+            "storage": {
+              "s3": {
+                "accessKeyIdSecretKeyRef": {
+                  "key": "access-key-id",
+                  "name": "minio"
+                },
+                "bucket": "backups",
+                "endpoint": "minio.minio.svc.cluster.local:9000",
+                "secretAccessKeySecretKeyRef": {
+                  "key": "secret-access-key",
+                  "name": "minio"
+                },
+                "tls": {
+                  "caSecretKeyRef": {
+                    "key": "ca.crt",
+                    "name": "minio-ca"
+                  },
+                  "enabled": true
+                }
+              }
+            }
+          }
+        },
+        {
+          "apiVersion": "k8s.mariadb.com/v1alpha1",
+          "kind": "Connection",
+          "metadata": {
+            "name": "connection"
+          },
+          "spec": {
+            "database": "mariadb",
+            "healthCheck": {
+              "interval": "10s",
+              "retryInterval": "3s"
+            },
+            "mariaDbRef": {
+              "name": "mariadb"
+            },
+            "params": {
+              "parseTime": "true"
+            },
+            "passwordSecretKeyRef": {
+              "key": "password",
+              "name": "mariadb"
+            },
+            "secretName": "connection",
+            "secretTemplate": {
+              "annotations": {
+                "k8s.mariadb.com/connection": "sample"
+              },
+              "databaseKey": "database",
+              "hostKey": "host",
+              "key": "dsn",
+              "labels": {
+                "k8s.mariadb.com/connection": "sample"
+              },
+              "passwordKey": "password",
+              "portKey": "port",
+              "usernameKey": "username"
+            },
+            "serviceName": "mariadb",
+            "username": "mariadb"
+          }
+        },
+        {
+          "apiVersion": "k8s.mariadb.com/v1alpha1",
+          "kind": "Database",
+          "metadata": {
+            "name": "data-test"
+          },
+          "spec": {
+            "characterSet": "utf8",
+            "collate": "utf8_general_ci",
+            "mariaDbRef": {
+              "name": "mariadb"
+            },
+            "retryInterval": "5s"
+          }
+        },
+        {
+          "apiVersion": "k8s.mariadb.com/v1alpha1",
+          "kind": "Grant",
+          "metadata": {
+            "name": "grant"
+          },
+          "spec": {
+            "database": "*",
+            "grantOption": true,
+            "host": "%",
+            "mariaDbRef": {
+              "name": "mariadb"
+            },
+            "privileges": [
+              "SELECT",
+              "INSERT",
+              "UPDATE"
+            ],
+            "retryInterval": "5s",
+            "table": "*",
+            "username": "user"
+          }
+        },
+        {
+          "apiVersion": "k8s.mariadb.com/v1alpha1",
+          "kind": "MariaDB",
+          "metadata": {
+            "name": "mariadb"
+          },
+          "spec": {
+            "affinity": {
+              "enableAntiAffinity": true
+            },
+            "connection": {
+              "secretName": "mariadb-repl-conn",
+              "secretTemplate": {
+                "key": "dsn"
+              }
+            },
+            "database": "mariadb",
+            "galera": {
+              "enabled": true
+            },
+            "metrics": {
+              "enabled": true
+            },
+            "myCnf": "[mariadb]\nbind-address=*\ndefault_storage_engine=InnoDB\nbinlog_format=row\ninnodb_autoinc_lock_mode=2\nmax_allowed_packet=256M\n",
+            "podDisruptionBudget": {
+              "maxUnavailable": "33%"
+            },
+            "primaryConnection": {
+              "secretName": "mariadb-repl-conn-primary",
+              "secretTemplate": {
+                "key": "dsn"
+              }
+            },
+            "primaryService": {
+              "type": "ClusterIP"
+            },
+            "replicas": 3,
+            "secondaryConnection": {
+              "secretName": "mariadb-repl-conn-secondary",
+              "secretTemplate": {
+                "key": "dsn"
+              }
+            },
+            "secondaryService": {
+              "type": "ClusterIP"
+            },
+            "service": {
+              "type": "ClusterIP"
+            },
+            "storage": {
+              "size": "1Gi"
+            },
+            "updateStrategy": {
+              "type": "RollingUpdate"
+            },
+            "username": "mariadb"
+          }
+        },
+        {
+          "apiVersion": "k8s.mariadb.com/v1alpha1",
+          "kind": "MaxScale",
+          "metadata": {
+            "name": "maxscale-galera"
+          },
+          "spec": {
+            "admin": {
+              "guiEnabled": true,
+              "port": 8989
+            },
+            "auth": {
+              "adminPasswordSecretKeyRef": {
+                "key": "password",
+                "name": "maxscale"
+              },
+              "adminUsername": "mariadb-operator",
+              "generate": true
+            },
+            "config": {
+              "sync": {
+                "database": "mysql",
+                "interval": "5s",
+                "timeout": "10s"
+              }
+            },
+            "connection": {
+              "port": 3306,
+              "secretName": "mxs-galera-conn"
+            },
+            "kubernetesService": {
+              "annotations": {
+                "metallb.universe.tf/loadBalancerIPs": "172.18.0.224"
+              },
+              "type": "LoadBalancer"
+            },
+            "mariaDbRef": {
+              "name": "mariadb-galera"
+            },
+            "monitor": {
+              "cooperativeMonitoring": "majority_of_all",
+              "interval": "2s",
+              "params": {
+                "available_when_donor": "false",
+                "disable_master_failback": "false",
+                "disable_master_role_setting": "false"
+              }
+            },
+            "replicas": 3,
+            "requeueInterval": "10s",
+            "services": [
+              {
+                "listener": {
+                  "params": {
+                    "connection_metadata": "tx_isolation=auto"
+                  },
+                  "port": 3306,
+                  "protocol": "MariaDBProtocol"
+                },
+                "name": "rw-router",
+                "params": {
+                  "master_accept_reads": "true",
+                  "max_replication_lag": "3s",
+                  "max_slave_connections": "255",
+                  "transaction_replay": "true",
+                  "transaction_replay_attempts": "10",
+                  "transaction_replay_timeout": "5s"
+                },
+                "router": "readwritesplit"
+              },
+              {
+                "listener": {
+                  "port": 3307
+                },
+                "name": "rconn-master-router",
+                "params": {
+                  "master_accept_reads": "true",
+                  "max_replication_lag": "3s",
+                  "router_options": "master"
+                },
+                "router": "readconnroute"
+              },
+              {
+                "listener": {
+                  "port": 3308
+                },
+                "name": "rconn-slave-router",
+                "params": {
+                  "max_replication_lag": "3s",
+                  "router_options": "slave"
+                },
+                "router": "readconnroute"
+              }
+            ]
+          }
+        },
+        {
+          "apiVersion": "k8s.mariadb.com/v1alpha1",
+          "kind": "Restore",
+          "metadata": {
+            "name": "restore"
+          },
+          "spec": {
+            "backupRef": {
+              "name": "backup"
+            },
+            "mariaDbRef": {
+              "name": "mariadb"
+            },
+            "resources": {
+              "limits": {
+                "cpu": "300m",
+                "memory": "512Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "128Mi"
+              }
+            },
+            "targetRecoveryTime": "2023-12-19T09:00:00Z"
+          }
+        },
+        {
+          "apiVersion": "k8s.mariadb.com/v1alpha1",
+          "kind": "SqlJob",
+          "metadata": {
+            "name": "03-stars"
+          },
+          "spec": {
+            "database": "mariadb",
+            "dependsOn": [
+              {
+                "name": "01-users"
+              },
+              {
+                "name": "02-repos"
+              }
+            ],
+            "mariaDbRef": {
+              "name": "mariadb"
+            },
+            "passwordSecretKeyRef": {
+              "key": "password",
+              "name": "mariadb"
+            },
+            "schedule": {
+              "cron": "*/1 * * * *",
+              "suspend": false
+            },
+            "sql": "CREATE TABLE IF NOT EXISTS stars (\n  id bigint PRIMARY KEY AUTO_INCREMENT,\n  user_id bigint NOT NULL,\n  repo_id bigint NOT NULL,\n  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,\n  FOREIGN KEY (repo_id) REFERENCES repos(id) ON DELETE CASCADE,\n  UNIQUE KEY (user_id, repo_id)\n);\nINSERT INTO stars(user_id, repo_id) \n  VALUES((SELECT id FROM users ORDER BY RAND() LIMIT 1), (SELECT id FROM repos ORDER BY RAND() LIMIT 1))\n  ON DUPLICATE KEY UPDATE id=id;\nDELETE FROM stars WHERE id = (SELECT id FROM stars ORDER BY RAND() LIMIT 1);\nSELECT r.name AS repo, COUNT(*) AS stars\nFROM stars s\nJOIN repos r\nON s.repo_id = r.id\nGROUP BY r.id\nORDER BY stars DESC;",
+            "username": "mariadb"
+          }
+        },
+        {
+          "apiVersion": "k8s.mariadb.com/v1alpha1",
+          "kind": "User",
+          "metadata": {
+            "name": "user"
+          },
+          "spec": {
+            "host": "%",
+            "mariaDbRef": {
+              "name": "mariadb"
+            },
+            "maxUserConnections": 20,
+            "passwordSecretKeyRef": {
+              "key": "password",
+              "name": "user"
+            },
+            "retryInterval": "5s"
+          }
         }
       ]
     capabilities: Deep Insights
     categories: Database
-    containerImage: ghcr.io/mariadb-operator/mariadb-operator-helm:0.24.0
-    createdAt: "2024-02-29T13:58:04Z"
+    containerImage: ghcr.io/mariadb-operator/mariadb-operator-helm:0.26.0
+    createdAt: "2024-03-04T11:50:18Z"
     description: Run and operate MariaDB in a cloud native way
     operators.operatorframework.io/builder: operator-sdk-v1.26.0
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
     repository: https://github.com/mariadb-operator/mariadb-operator
     support: mariadb-operator
-  name: mariadb-operator.v0.24.0
+  name: mariadb-operator.v0.26.0
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
   customresourcedefinitions:
     owned:
-    - description: Configures a backup
-      displayName: Backup
-      kind: Backup
-      name: backups.mariadb.mmontes.io
+    - kind: Backup
+      name: backups.k8s.mariadb.com
       version: v1alpha1
-    - description: Configures a connection
-      displayName: Connection
-      kind: Connection
-      name: connections.mariadb.mmontes.io
+    - kind: Connection
+      name: connections.k8s.mariadb.com
       version: v1alpha1
-    - description: Defines a logical database
-      displayName: Database
-      kind: Database
-      name: databases.mariadb.mmontes.io
+    - kind: Database
+      name: databases.k8s.mariadb.com
       version: v1alpha1
-    - description: Grants permissions to an user in a database
-      displayName: Grant
-      kind: Grant
-      name: grants.mariadb.mmontes.io
+    - kind: Grant
+      name: grants.k8s.mariadb.com
       version: v1alpha1
     - description: Configures MariaDB helm chart based operator
       displayName: MariadbOperator
       kind: MariadbOperator
       name: mariadboperators.helm.mariadb.mmontes.io
       version: v1alpha1
-    - description: Provisions a MariaDB instance
-      displayName: MariaDB
-      kind: MariaDB
-      name: mariadbs.mariadb.mmontes.io
+    - kind: MariaDB
+      name: mariadbs.k8s.mariadb.com
       version: v1alpha1
-    - description: Restores a backup
-      displayName: Restore
-      kind: Restore
-      name: restores.mariadb.mmontes.io
+    - kind: MaxScale
+      name: maxscales.k8s.mariadb.com
       version: v1alpha1
-    - description: Defines a SQL job
-      displayName: SqlJob
-      kind: SqlJob
-      name: sqljobs.mariadb.mmontes.io
+    - kind: Restore
+      name: restores.k8s.mariadb.com
       version: v1alpha1
-    - description: Defines a user
-      displayName: User
-      kind: User
-      name: users.mariadb.mmontes.io
+    - kind: SqlJob
+      name: sqljobs.k8s.mariadb.com
+      version: v1alpha1
+    - kind: User
+      name: users.k8s.mariadb.com
       version: v1alpha1
   description: |
     Install [`mariadb-operator`](https://github.com/mariadb-operator/mariadb-operator) via [OLM](https://olm.operatorframework.io/) using the [helm chart](https://artifacthub.io/packages/helm/mariadb-operator/mariadb-operator).
@@ -393,7 +742,7 @@ spec:
               - args:
                 - --leader-elect
                 - --leader-election-id=helm-operator
-                image: ghcr.io/mariadb-operator/mariadb-operator-helm:0.24.0
+                image: ghcr.io/mariadb-operator/mariadb-operator-helm:0.26.0
                 livenessProbe:
                   httpGet:
                     path: /healthz
@@ -485,4 +834,4 @@ spec:
   provider:
     name: mariadb-operator
     url: https://github.com/mariadb-operator/mariadb-operator
-  version: 0.24.0
+  version: 0.26.0
