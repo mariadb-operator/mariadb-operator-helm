@@ -273,6 +273,7 @@ metadata:
               "INSERT",
               "UPDATE"
             ],
+            "requeueInterval": "30s",
             "retryInterval": "5s",
             "table": "*",
             "username": "user"
@@ -502,7 +503,7 @@ metadata:
             "maxUserConnections": 20,
             "passwordSecretKeyRef": {
               "key": "password",
-              "name": "user"
+              "name": "mariadb"
             },
             "retryInterval": "5s"
           }
@@ -511,7 +512,7 @@ metadata:
     capabilities: Deep Insights
     categories: Database
     containerImage: ghcr.io/mariadb-operator/mariadb-operator-helm:0.27.0
-    createdAt: "2024-04-23T09:39:27Z"
+    createdAt: "2024-04-26T10:13:08Z"
     description: Run and operate MariaDB in a cloud native way
     operators.operatorframework.io/builder: operator-sdk-v1.26.0
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
