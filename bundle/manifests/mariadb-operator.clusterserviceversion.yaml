@@ -300,6 +300,11 @@ metadata:
               "enabled": true
             },
             "myCnf": "[mariadb]\nbind-address=*\ndefault_storage_engine=InnoDB\nbinlog_format=row\ninnodb_autoinc_lock_mode=2\nmax_allowed_packet=256M\n",
+            "passwordSecretKeyRef": {
+              "generate": true,
+              "key": "password",
+              "name": "mariadb"
+            },
             "primaryConnection": {
               "secretName": "mariadb-repl-conn-primary",
               "secretTemplate": {
@@ -310,6 +315,11 @@ metadata:
               "type": "ClusterIP"
             },
             "replicas": 3,
+            "rootPasswordSecretKeyRef": {
+              "generate": true,
+              "key": "root-password",
+              "name": "mariadb"
+            },
             "secondaryConnection": {
               "secretName": "mariadb-repl-conn-secondary",
               "secretTemplate": {
@@ -340,11 +350,6 @@ metadata:
               "port": 8989
             },
             "auth": {
-              "adminPasswordSecretKeyRef": {
-                "key": "password",
-                "name": "maxscale"
-              },
-              "adminUsername": "mariadb-operator",
               "generate": true
             },
             "config": {
@@ -512,7 +517,7 @@ metadata:
     capabilities: Deep Insights
     categories: Database
     containerImage: ghcr.io/mariadb-operator/mariadb-operator-helm:0.27.0
-    createdAt: "2024-04-26T10:13:08Z"
+    createdAt: "2024-04-30T12:14:55Z"
     description: Run and operate MariaDB in a cloud native way
     operators.operatorframework.io/builder: operator-sdk-v1.26.0
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
