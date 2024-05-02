@@ -12,7 +12,6 @@ annotations:
   com.redhat.openshift.versions: v4.12
   com.redhat.delivery.operator.bundle: true
   com.redhat.delivery.backport: false
-  
   # Annotations for testing.
   operators.operatorframework.io.test.mediatype.v1: scorecard+v1
   operators.operatorframework.io.test.config.v1: tests/scorecard/
