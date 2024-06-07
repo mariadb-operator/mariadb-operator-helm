@@ -287,7 +287,7 @@ metadata:
           },
           "spec": {
             "connection": {
-              "secretName": "mariadb-repl-conn",
+              "secretName": "mariadb-conn",
               "secretTemplate": {
                 "key": "dsn"
               }
@@ -297,16 +297,21 @@ metadata:
               "enabled": true
             },
             "metrics": {
-              "enabled": true
+              "enabled": true,
+              "passwordSecretKeyRef": {
+                "generate": true,
+                "key": "password",
+                "name": "mariadb-metrics"
+              }
             },
-            "myCnf": "[mariadb]\nbind-address=*\ndefault_storage_engine=InnoDB\nbinlog_format=row\ninnodb_autoinc_lock_mode=2\nmax_allowed_packet=256M\n",
+            "myCnf": "[mariadb]\nbind-address=*\ndefault_storage_engine=InnoDB\nbinlog_format=row\ninnodb_autoinc_lock_mode=2\ninnodb_buffer_pool_size=1024M\nmax_allowed_packet=256M\n",
             "passwordSecretKeyRef": {
               "generate": true,
               "key": "password",
-              "name": "mariadb"
+              "name": "mariadb-password"
             },
             "primaryConnection": {
-              "secretName": "mariadb-repl-conn-primary",
+              "secretName": "mariadb-conn-primary",
               "secretTemplate": {
                 "key": "dsn"
               }
@@ -317,11 +322,11 @@ metadata:
             "replicas": 3,
             "rootPasswordSecretKeyRef": {
               "generate": true,
-              "key": "root-password",
-              "name": "mariadb"
+              "key": "password",
+              "name": "mariadb-root"
             },
             "secondaryConnection": {
-              "secretName": "mariadb-repl-conn-secondary",
+              "secretName": "mariadb-conn-secondary",
               "secretTemplate": {
                 "key": "dsn"
               }
@@ -334,6 +339,9 @@ metadata:
             },
             "storage": {
               "size": "1Gi"
+            },
+            "updateStrategy": {
+              "type": "ReplicasFirstPrimaryLast"
             },
             "username": "mariadb"
           }
@@ -516,14 +524,14 @@ metadata:
       ]
     capabilities: Deep Insights
     categories: Database
-    containerImage: ghcr.io/mariadb-operator/mariadb-operator-helm:0.28.1
-    createdAt: "2024-05-02T14:00:31Z"
+    containerImage: ghcr.io/mariadb-operator/mariadb-operator-helm:0.29.0
+    createdAt: "2024-06-07T10:08:31Z"
     description: Run and operate MariaDB in a cloud native way
     operators.operatorframework.io/builder: operator-sdk-v1.26.0
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
     repository: https://github.com/mariadb-operator/mariadb-operator
     support: mariadb-operator
-  name: mariadb-operator.v0.28.1
+  name: mariadb-operator.v0.29.0
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -766,7 +774,7 @@ spec:
               - args:
                 - --leader-elect
                 - --leader-election-id=helm-operator
-                image: ghcr.io/mariadb-operator/mariadb-operator-helm:0.28.1
+                image: ghcr.io/mariadb-operator/mariadb-operator-helm:0.29.0
                 livenessProbe:
                   httpGet:
                     path: /healthz
@@ -858,4 +866,4 @@ spec:
   provider:
     name: mariadb-operator
     url: https://github.com/mariadb-operator/mariadb-operator
-  version: 0.28.1
+  version: 0.29.0
