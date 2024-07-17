@@ -62,14 +62,6 @@ help: ## Display this help.
 sync-chart: ## Sync helm chart.
 	@./hack/sync-chart.sh $(VERSION)
 
-.PHONY: clone-upstream-repos
-clone-upstream-repos: ## Clone upstream repos.
-	@./hack/clone-upstream-repos.sh
-
-.PHONY: sync-upstream-repos
-sync-upstream-repos: ## Sync upstream repos.
-	@./hack/sync-upstream-repos.sh $(VERSION)
-
 ##@ Build
 
 .PHONY: run

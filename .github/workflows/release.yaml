@@ -132,37 +132,56 @@ jobs:
             org.opencontainers.image.version=${{ needs.version.outputs.version }}
             org.opencontainers.image.created=${{ needs.version.outputs.build_date }}
 
-  sync-repos:
-    name: Sync repos
+  operatorhub:
+    name: OperatorHub
     runs-on: ubuntu-latest
     needs:
       - version
-      - bundle
       - operator
+      - bundle
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Checkout community-operators
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          repository: "mariadb-operator/community-operators"
-          path: "community-operators"
-          token: "${{ secrets.GHA_TOKEN }}"
-
-      - name: Checkout community-operators-prod
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          repository: "mariadb-operator/community-operators-prod"
-          path: "community-operators-prod"
-          token: "${{ secrets.GHA_TOKEN }}"
-
-      - name: Sync repos
-        run: make sync-upstream-repos
+      
+      - name: Operator PR
+        uses: mariadb-operator/openshift-operator-pr@v1
         env:
-          VERSION: "${{ needs.version.outputs.version }}"
           GITHUB_TOKEN: "${{ secrets.GHA_TOKEN }}"
+        with:
+          name: "mariadb-operator"
+          version: "${{ needs.version.outputs.version }}"
+          fork-repo-name: "mariadb-operator/community-operators"
+          upstream-repo-name: "k8s-operatorhub/community-operators"
+          bundle-path-dir: "bundle"
+          ci-path-file: "bundle/ci.yaml"
+          user-name: "Martin Montes"
+          user-email: "martin11lrx@gmail.com"
+
+  openshift:
+    name: OpenShift
+    runs-on: ubuntu-latest
+    needs:
+      - version
+      - operator
+      - bundle
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Operator PR
+        uses: mariadb-operator/openshift-operator-pr@v1
+        env:
+          GITHUB_TOKEN: "${{ secrets.GHA_TOKEN }}"
+        with:
+          name: "mariadb-operator"
+          version: "${{ needs.version.outputs.version }}"
+          fork-repo-name: "mariadb-operator/community-operators-prod"
+          upstream-repo-name: "redhat-openshift-ecosystem/community-operators-prod"
+          bundle-path-dir: "bundle"
+          ci-path-file: "bundle/ci.yaml"
+          user-name: "Martin Montes"
+          user-email: "martin11lrx@gmail.com"
