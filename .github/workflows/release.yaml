@@ -10,7 +10,7 @@ jobs:
     name: Version
     runs-on: ubuntu-latest
     outputs:
-      buid_date: ${{ steps.version.outputs.buid_date }}
+      build_date: ${{ steps.version.outputs.buid_date }}
       version: ${{ steps.version.outputs.version }}
     steps:
       - name: Checkout
@@ -28,7 +28,7 @@ jobs:
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             VERSION=${GITHUB_REF/refs\/tags\//}
           fi
-          echo ::set-output name=buid_date::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+          echo ::set-output name=build_date::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           echo ::set-output name=version::${VERSION}
 
   operator:
