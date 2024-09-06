@@ -14,6 +14,9 @@
 <a href="https://artifacthub.io/packages/olm/community-operators/mariadb-operator"><img src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/mariadb-operator" alt="Artifact Hub"></a>
 </p>
 
+> [!IMPORTANT]  
+> The certified operator for MariaDB Enterprise is the recommended way to deploy MariaDB in OpenShift, refer to the [documentation](https://github.com/mariadb-operator/mariadb-operator/blob/main/docs/OPENSHIFT.md) for further detail. The current operator is supported on a best-effort basis.
+
 # 🦭 mariadb-operator-helm
 
 Install [`mariadb-operator`](https://github.com/mariadb-operator/mariadb-operator) via [OLM](https://olm.operatorframework.io/) using the [helm chart](https://artifacthub.io/packages/helm/mariadb-operator/mariadb-operator).
