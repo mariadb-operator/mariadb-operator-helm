@@ -22,10 +22,5 @@ if [ -d "$HELM_CHART_DIR" ]; then
 fi
 curl -sL $RELEASE_URL | tar xz -C helm-charts/
 
-HELM_CRDS_VERSION=$(yq e '.dependencies[] | select(.name == "mariadb-operator-crds").version' $HELM_CHART_FILE)
-
-echo "☸️  Unpacking CRDs version $HELM_CRDS_VERSION";
-tar xz -f "helm-charts/mariadb-operator/charts/mariadb-operator-crds-$HELM_CRDS_VERSION.tgz" -C "helm-charts/"
-
 echo "☸️  Syncing CRDs";
-cp helm-charts/mariadb-operator-crds/templates/crds.yaml config/manifests/crds/crds.yaml
+cp helm-charts/mariadb-operator/charts/mariadb-operator-crds/templates/crds.yaml config/manifests/crds/crds.yaml
