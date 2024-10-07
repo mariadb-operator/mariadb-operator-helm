@@ -7,6 +7,13 @@ metadata:
     categories: Database
     containerImage: ghcr.io/mariadb-operator/mariadb-operator-helm:0.34.0
     description: Run and operate MariaDB in a cloud native way
+    features.operators.openshift.io/disconnected: "false"
+    features.operators.openshift.io/fips-compliant: "false"
+    features.operators.openshift.io/proxy-aware: "false"
+    features.operators.openshift.io/tls-profiles: "false"
+    features.operators.openshift.io/token-auth-aws: "false"
+    features.operators.openshift.io/token-auth-azure: "false"
+    features.operators.openshift.io/token-auth-gcp: "false"
     repository: https://github.com/mariadb-operator/mariadb-operator
     support: mariadb-operator
   name: mariadb-operator.v0.0.0
