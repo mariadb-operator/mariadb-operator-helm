@@ -78,6 +78,11 @@ Take a look at our [roadmap](https://github.com/mariadb-operator/mariadb-operato
 ## Contributing
 We welcome and encourage contributions to this project! Please check our [contributing](https://github.com/mariadb-operator/mariadb-operator/blob/main/CONTRIBUTING.md) and [development](https://github.com/mariadb-operator/mariadb-operator/blob/main/docs/DEVELOPMENT.md) guides. PRs welcome!
 
+## Community
+- [We Tested and Compared 6 Database Operators. The Results are In!](https://www.youtube.com/watch?v=l33pcnQ4cUQ&t=17m25s) - KubeCon EU, March 2024
+- [Get Started with MariaDB in Kubernetes and mariadb-operator](https://mariadb.com/resources/blog/get-started-with-mariadb-in-kubernetes-and-mariadb-operator/) - MariaDB Corporation blog, February 2024
+- [Run and operate MariaDB in Kubernetes with mariadb-operator](https://mariadb.org/mariadb-in-kubernetes-with-mariadb-operator/) - MariaDB Foundation blog, July 2023
+- [L'enfer des DB SQL sur Kubernetes face à la promesse des opérateurs](https://www.youtube.com/watch?v=d_ka7PlWo1I&t=2415s&ab_channel=KCDFrance) - KCD France, March 2023
+
 ## Get in touch
-- [Slack](https://r.mariadb.com/join-community-slack)
-- mariadb-operator@proton.me
+Join us on Slack: **[MariaDB Community Slack](https://r.mariadb.com/join-community-slack)**.
