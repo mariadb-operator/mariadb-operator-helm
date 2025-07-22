@@ -447,6 +447,73 @@ metadata:
         },
         {
           "apiVersion": "k8s.mariadb.com/v1alpha1",
+          "kind": "PhysicalBackup",
+          "metadata": {
+            "name": "physicalbackup"
+          },
+          "spec": {
+            "compression": "bzip2",
+            "mariaDbRef": {
+              "name": "mariadb"
+            },
+            "maxRetention": "720h",
+            "podAffinity": true,
+            "resources": {
+              "limits": {
+                "cpu": "300m",
+                "memory": "512Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "128Mi"
+              }
+            },
+            "schedule": {
+              "cron": "*/1 * * * *",
+              "immediate": true,
+              "suspend": false
+            },
+            "serviceAccountName": "backup",
+            "stagingStorage": {
+              "persistentVolumeClaim": {
+                "accessModes": [
+                  "ReadWriteOnce"
+                ],
+                "resources": {
+                  "requests": {
+                    "storage": "1Gi"
+                  }
+                }
+              }
+            },
+            "storage": {
+              "s3": {
+                "accessKeyIdSecretKeyRef": {
+                  "key": "access-key-id",
+                  "name": "minio"
+                },
+                "bucket": "physicalbackups",
+                "endpoint": "minio.minio.svc.cluster.local:9000",
+                "prefix": "mariadb",
+                "region": "us-east-1",
+                "secretAccessKeySecretKeyRef": {
+                  "key": "secret-access-key",
+                  "name": "minio"
+                },
+                "tls": {
+                  "caSecretKeyRef": {
+                    "key": "ca.crt",
+                    "name": "minio-ca"
+                  },
+                  "enabled": true
+                }
+              }
+            },
+            "timeout": "1h"
+          }
+        },
+        {
+          "apiVersion": "k8s.mariadb.com/v1alpha1",
           "kind": "Restore",
           "metadata": {
             "name": "restore"
@@ -524,8 +591,8 @@ metadata:
       ]
     capabilities: Deep Insights
     categories: Database
-    containerImage: ghcr.io/mariadb-operator/mariadb-operator-helm:0.38.1
-    createdAt: "2025-04-15T16:55:22Z"
+    containerImage: ghcr.io/mariadb-operator/mariadb-operator-helm:25.8.0
+    createdAt: "2025-07-22T17:03:02Z"
     description: Run and operate MariaDB in a cloud native way
     features.operators.openshift.io/disconnected: "false"
     features.operators.openshift.io/fips-compliant: "false"
@@ -538,7 +605,7 @@ metadata:
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
     repository: https://github.com/mariadb-operator/mariadb-operator
     support: mariadb-operator
-  name: mariadb-operator.v0.38.1
+  name: mariadb-operator.v25.8.0
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -578,6 +645,9 @@ spec:
       displayName: MaxScale
       kind: MaxScale
       name: maxscales.k8s.mariadb.com
+      version: v1alpha1
+    - kind: PhysicalBackup
+      name: physicalbackups.k8s.mariadb.com
       version: v1alpha1
     - description: Restores a backup
       displayName: Restore
@@ -780,7 +850,7 @@ spec:
               - args:
                 - --leader-elect
                 - --leader-election-id=helm-operator
-                image: ghcr.io/mariadb-operator/mariadb-operator-helm:0.38.1
+                image: ghcr.io/mariadb-operator/mariadb-operator-helm:25.8.0
                 livenessProbe:
                   httpGet:
                     path: /healthz
@@ -872,4 +942,4 @@ spec:
   provider:
     name: mariadb-operator
     url: https://github.com/mariadb-operator/mariadb-operator
-  version: 0.38.1
+  version: 25.8.0

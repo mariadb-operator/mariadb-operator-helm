@@ -4,16 +4,16 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.18.0
   creationTimestamp: null
-  name: restores.k8s.mariadb.com
+  name: physicalbackups.k8s.mariadb.com
 spec:
   group: k8s.mariadb.com
   names:
-    kind: Restore
-    listKind: RestoreList
-    plural: restores
+    kind: PhysicalBackup
+    listKind: PhysicalBackupList
+    plural: physicalbackups
     shortNames:
-    - rmdb
-    singular: restore
+    - pbmdb
+    singular: physicalbackup
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -26,14 +26,17 @@ spec:
     - jsonPath: .spec.mariaDbRef.name
       name: MariaDB
       type: string
+    - jsonPath: .status.lastScheduleTime
+      name: Last Scheduled
+      type: date
     - jsonPath: .metadata.creationTimestamp
       name: Age
       type: date
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Restore is the Schema for the restores API. It is used to define
-          restore jobs and its restoration source.
+        description: PhysicalBackup is the Schema for the physicalbackups API. It
+          is used to define physical backup jobs and its storage.
         properties:
           apiVersion:
             description: |-
@@ -53,259 +56,24 @@ spec:
           metadata:
             type: object
           spec:
-            description: RestoreSpec defines the desired state of restore
+            description: PhysicalBackupSpec defines the desired state of PhysicalBackup.
             properties:
-              affinity:
-                description: Affinity to be used in the Pod.
-                properties:
-                  antiAffinityEnabled:
-                    description: |-
-                      AntiAffinityEnabled configures PodAntiAffinity so each Pod is scheduled in a different Node, enabling HA.
-                      Make sure you have at least as many Nodes available as the replicas to not end up with unscheduled Pods.
-                    type: boolean
-                  nodeAffinity:
-                    description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#nodeaffinity-v1-core'
-                    properties:
-                      preferredDuringSchedulingIgnoredDuringExecution:
-                        items:
-                          description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#preferredschedulingterm-v1-core'
-                          properties:
-                            preference:
-                              description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#nodeselectorterm-v1-core'
-                              properties:
-                                matchExpressions:
-                                  items:
-                                    description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#nodeselectorrequirement-v1-core'
-                                    properties:
-                                      key:
-                                        type: string
-                                      operator:
-                                        description: |-
-                                          A node selector operator is the set of operators that can be used in
-                                          a node selector requirement.
-                                        type: string
-                                      values:
-                                        items:
-                                          type: string
-                                        type: array
-                                        x-kubernetes-list-type: atomic
-                                    required:
-                                    - key
-                                    - operator
-                                    type: object
-                                  type: array
-                                  x-kubernetes-list-type: atomic
-                                matchFields:
-                                  items:
-                                    description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#nodeselectorrequirement-v1-core'
-                                    properties:
-                                      key:
-                                        type: string
-                                      operator:
-                                        description: |-
-                                          A node selector operator is the set of operators that can be used in
-                                          a node selector requirement.
-                                        type: string
-                                      values:
-                                        items:
-                                          type: string
-                                        type: array
-                                        x-kubernetes-list-type: atomic
-                                    required:
-                                    - key
-                                    - operator
-                                    type: object
-                                  type: array
-                                  x-kubernetes-list-type: atomic
-                              type: object
-                            weight:
-                              format: int32
-                              type: integer
-                          required:
-                          - preference
-                          - weight
-                          type: object
-                        type: array
-                        x-kubernetes-list-type: atomic
-                      requiredDuringSchedulingIgnoredDuringExecution:
-                        description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#nodeselector-v1-core'
-                        properties:
-                          nodeSelectorTerms:
-                            items:
-                              description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#nodeselectorterm-v1-core'
-                              properties:
-                                matchExpressions:
-                                  items:
-                                    description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#nodeselectorrequirement-v1-core'
-                                    properties:
-                                      key:
-                                        type: string
-                                      operator:
-                                        description: |-
-                                          A node selector operator is the set of operators that can be used in
-                                          a node selector requirement.
-                                        type: string
-                                      values:
-                                        items:
-                                          type: string
-                                        type: array
-                                        x-kubernetes-list-type: atomic
-                                    required:
-                                    - key
-                                    - operator
-                                    type: object
-                                  type: array
-                                  x-kubernetes-list-type: atomic
-                                matchFields:
-                                  items:
-                                    description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#nodeselectorrequirement-v1-core'
-                                    properties:
-                                      key:
-                                        type: string
-                                      operator:
-                                        description: |-
-                                          A node selector operator is the set of operators that can be used in
-                                          a node selector requirement.
-                                        type: string
-                                      values:
-                                        items:
-                                          type: string
-                                        type: array
-                                        x-kubernetes-list-type: atomic
-                                    required:
-                                    - key
-                                    - operator
-                                    type: object
-                                  type: array
-                                  x-kubernetes-list-type: atomic
-                              type: object
-                            type: array
-                            x-kubernetes-list-type: atomic
-                        required:
-                        - nodeSelectorTerms
-                        type: object
-                    type: object
-                  podAntiAffinity:
-                    description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#podantiaffinity-v1-core.'
-                    properties:
-                      preferredDuringSchedulingIgnoredDuringExecution:
-                        items:
-                          description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#weightedpodaffinityterm-v1-core.'
-                          properties:
-                            podAffinityTerm:
-                              description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#podaffinityterm-v1-core.'
-                              properties:
-                                labelSelector:
-                                  description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#labelselector-v1-meta'
-                                  properties:
-                                    matchExpressions:
-                                      items:
-                                        description: 'Refer to the Kubernetes docs:
-                                          https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#labelselectorrequirement-v1-meta'
-                                        properties:
-                                          key:
-                                            type: string
-                                          operator:
-                                            description: A label selector operator
-                                              is the set of operators that can be
-                                              used in a selector requirement.
-                                            type: string
-                                          values:
-                                            items:
-                                              type: string
-                                            type: array
-                                            x-kubernetes-list-type: atomic
-                                        required:
-                                        - key
-                                        - operator
-                                        type: object
-                                      type: array
-                                      x-kubernetes-list-type: atomic
-                                    matchLabels:
-                                      additionalProperties:
-                                        type: string
-                                      type: object
-                                  type: object
-                                topologyKey:
-                                  type: string
-                              required:
-                              - topologyKey
-                              type: object
-                            weight:
-                              format: int32
-                              type: integer
-                          required:
-                          - podAffinityTerm
-                          - weight
-                          type: object
-                        type: array
-                        x-kubernetes-list-type: atomic
-                      requiredDuringSchedulingIgnoredDuringExecution:
-                        items:
-                          description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#podaffinityterm-v1-core.'
-                          properties:
-                            labelSelector:
-                              description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#labelselector-v1-meta'
-                              properties:
-                                matchExpressions:
-                                  items:
-                                    description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#labelselectorrequirement-v1-meta'
-                                    properties:
-                                      key:
-                                        type: string
-                                      operator:
-                                        description: A label selector operator is
-                                          the set of operators that can be used in
-                                          a selector requirement.
-                                        type: string
-                                      values:
-                                        items:
-                                          type: string
-                                        type: array
-                                        x-kubernetes-list-type: atomic
-                                    required:
-                                    - key
-                                    - operator
-                                    type: object
-                                  type: array
-                                  x-kubernetes-list-type: atomic
-                                matchLabels:
-                                  additionalProperties:
-                                    type: string
-                                  type: object
-                              type: object
-                            topologyKey:
-                              type: string
-                          required:
-                          - topologyKey
-                          type: object
-                        type: array
-                        x-kubernetes-list-type: atomic
-                    type: object
-                type: object
               args:
                 description: Args to be used in the Container.
                 items:
                   type: string
                 type: array
               backoffLimit:
-                default: 5
                 description: BackoffLimit defines the maximum number of attempts to
-                  successfully perform a Backup.
+                  successfully take a PhysicalBackup.
                 format: int32
                 type: integer
-              backupRef:
-                description: BackupRef is a reference to a Backup object. It has priority
-                  over S3 and Volume.
-                properties:
-                  name:
-                    default: ""
-                    type: string
-                type: object
-              database:
-                description: |-
-                  Database defines the logical database to be restored. If not provided, all databases available in the backup are restored.
-                  IMPORTANT: The database must previously exist.
+              compression:
+                description: Compression algorithm to be used in the Backup.
+                enum:
+                - none
+                - bzip2
+                - gzip
                 type: string
               imagePullSecrets:
                 description: ImagePullSecrets is the list of pull Secrets to be used
@@ -333,11 +101,6 @@ spec:
                     description: Labels to be added to children resources.
                     type: object
                 type: object
-              logLevel:
-                default: info
-                description: LogLevel to be used n the Backup Job. It defaults to
-                  'info'.
-                type: string
               mariaDbRef:
                 description: MariaDBRef is a reference to a MariaDB object.
                 properties:
@@ -351,11 +114,16 @@ spec:
                       this reference should wait for MariaDB to be ready.
                     type: boolean
                 type: object
-              nodeSelector:
-                additionalProperties:
-                  type: string
-                description: NodeSelector to be used in the Pod.
-                type: object
+              maxRetention:
+                description: |-
+                  MaxRetention defines the retention policy for backups. Old backups will be cleaned up by the Backup Job.
+                  It defaults to 30 days.
+                type: string
+              podAffinity:
+                description: |-
+                  PodAffinity indicates whether the Jobs should run in the same Node as the MariaDB Pods to be able to attach the PVC.
+                  It defaults to true.
+                type: boolean
               podMetadata:
                 description: PodMetadata defines extra metadata for the Pod.
                 properties:
@@ -493,94 +261,29 @@ spec:
                 type: object
               restartPolicy:
                 default: OnFailure
-                description: RestartPolicy to be added to the Backup Job.
+                description: RestartPolicy to be added to the PhysicalBackup Pod.
                 enum:
                 - Always
                 - OnFailure
                 - Never
                 type: string
-              s3:
-                description: S3 defines the configuration to restore backups from
-                  a S3 compatible storage. It has priority over Volume.
+              schedule:
+                description: Schedule defines when the PhysicalBackup will be taken.
                 properties:
-                  accessKeyIdSecretKeyRef:
-                    description: AccessKeyIdSecretKeyRef is a reference to a Secret
-                      key containing the S3 access key id.
-                    properties:
-                      key:
-                        type: string
-                      name:
-                        default: ""
-                        type: string
-                    required:
-                    - key
-                    type: object
-                    x-kubernetes-map-type: atomic
-                  bucket:
-                    description: Bucket is the name Name of the bucket to store backups.
+                  cron:
+                    description: Cron is a cron expression that defines the schedule.
                     type: string
-                  endpoint:
-                    description: Endpoint is the S3 API endpoint without scheme.
-                    type: string
-                  prefix:
-                    description: 'Prefix indicates a folder/subfolder in the bucket.
-                      For example: mariadb/ or mariadb/backups. A trailing slash ''/''
-                      is added if not provided.'
-                    type: string
-                  region:
-                    description: Region is the S3 region name to use.
-                    type: string
-                  secretAccessKeySecretKeyRef:
-                    description: AccessKeyIdSecretKeyRef is a reference to a Secret
-                      key containing the S3 secret key.
-                    properties:
-                      key:
-                        type: string
-                      name:
-                        default: ""
-                        type: string
-                    required:
-                    - key
-                    type: object
-                    x-kubernetes-map-type: atomic
-                  sessionTokenSecretKeyRef:
-                    description: SessionTokenSecretKeyRef is a reference to a Secret
-                      key containing the S3 session token.
-                    properties:
-                      key:
-                        type: string
-                      name:
-                        default: ""
-                        type: string
-                    required:
-                    - key
-                    type: object
-                    x-kubernetes-map-type: atomic
-                  tls:
-                    description: TLS provides the configuration required to establish
-                      TLS connections with S3.
-                    properties:
-                      caSecretKeyRef:
-                        description: |-
-                          CASecretKeyRef is a reference to a Secret key containing a CA bundle in PEM format used to establish TLS connections with S3.
-                          By default, the system trust chain will be used, but you can use this field to add more CAs to the bundle.
-                        properties:
-                          key:
-                            type: string
-                          name:
-                            default: ""
-                            type: string
-                        required:
-                        - key
-                        type: object
-                        x-kubernetes-map-type: atomic
-                      enabled:
-                        description: Enabled is a flag to enable TLS.
-                        type: boolean
-                    type: object
+                  immediate:
+                    description: Immediate indicates whether the first backup should
+                      be taken immediately after creating the PhysicalBackup.
+                    type: boolean
+                  suspend:
+                    default: false
+                    description: Suspend defines whether the schedule is active or
+                      not.
+                    type: boolean
                 required:
-                - bucket
-                - endpoint
+                - cron
                 type: object
               securityContext:
                 description: SecurityContext holds security configuration that will
@@ -627,7 +330,8 @@ spec:
               stagingStorage:
                 description: |-
                   StagingStorage defines the temporary storage used to keep external backups (i.e. S3) while they are being processed.
-                  It defaults to an emptyDir volume, meaning that the backups will be temporarily stored in the node where the Restore Job is scheduled.
+                  It defaults to an emptyDir volume, meaning that the backups will be temporarily stored in the node where the PhysicalBackup Job is scheduled.
+                  The staging area gets cleaned up after each backup is completed, consider this for sizing it appropriately.
                 properties:
                   persistentVolumeClaim:
                     description: PersistentVolumeClaim is a Kubernetes PVC specification.
@@ -793,11 +497,294 @@ spec:
                         type: object
                     type: object
                 type: object
-              targetRecoveryTime:
+              storage:
+                description: Storage defines the final storage for backups.
+                properties:
+                  persistentVolumeClaim:
+                    description: PersistentVolumeClaim is a Kubernetes PVC specification.
+                    properties:
+                      accessModes:
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: atomic
+                      resources:
+                        description: VolumeResourceRequirements describes the storage
+                          resource requirements for a volume.
+                        properties:
+                          limits:
+                            additionalProperties:
+                              anyOf:
+                              - type: integer
+                              - type: string
+                              pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                              x-kubernetes-int-or-string: true
+                            description: |-
+                              Limits describes the maximum amount of compute resources allowed.
+                              More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+                            type: object
+                          requests:
+                            additionalProperties:
+                              anyOf:
+                              - type: integer
+                              - type: string
+                              pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                              x-kubernetes-int-or-string: true
+                            description: |-
+                              Requests describes the minimum amount of compute resources required.
+                              If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
+                              otherwise to an implementation-defined value. Requests cannot exceed Limits.
+                              More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+                            type: object
+                        type: object
+                      selector:
+                        description: |-
+                          A label selector is a label query over a set of resources. The result of matchLabels and
+                          matchExpressions are ANDed. An empty label selector matches all objects. A null
+                          label selector matches no objects.
+                        properties:
+                          matchExpressions:
+                            description: matchExpressions is a list of label selector
+                              requirements. The requirements are ANDed.
+                            items:
+                              description: |-
+                                A label selector requirement is a selector that contains values, a key, and an operator that
+                                relates the key and values.
+                              properties:
+                                key:
+                                  description: key is the label key that the selector
+                                    applies to.
+                                  type: string
+                                operator:
+                                  description: |-
+                                    operator represents a key's relationship to a set of values.
+                                    Valid operators are In, NotIn, Exists and DoesNotExist.
+                                  type: string
+                                values:
+                                  description: |-
+                                    values is an array of string values. If the operator is In or NotIn,
+                                    the values array must be non-empty. If the operator is Exists or DoesNotExist,
+                                    the values array must be empty. This array is replaced during a strategic
+                                    merge patch.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: atomic
+                              required:
+                              - key
+                              - operator
+                              type: object
+                            type: array
+                            x-kubernetes-list-type: atomic
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+                              map is equivalent to an element of matchExpressions, whose key field is "key", the
+                              operator is "In", and the values array contains only "value". The requirements are ANDed.
+                            type: object
+                        type: object
+                        x-kubernetes-map-type: atomic
+                      storageClassName:
+                        type: string
+                    type: object
+                  s3:
+                    description: S3 defines the configuration to store backups in
+                      a S3 compatible storage.
+                    properties:
+                      accessKeyIdSecretKeyRef:
+                        description: AccessKeyIdSecretKeyRef is a reference to a Secret
+                          key containing the S3 access key id.
+                        properties:
+                          key:
+                            type: string
+                          name:
+                            default: ""
+                            type: string
+                        required:
+                        - key
+                        type: object
+                        x-kubernetes-map-type: atomic
+                      bucket:
+                        description: Bucket is the name Name of the bucket to store
+                          backups.
+                        type: string
+                      endpoint:
+                        description: Endpoint is the S3 API endpoint without scheme.
+                        type: string
+                      prefix:
+                        description: 'Prefix indicates a folder/subfolder in the bucket.
+                          For example: mariadb/ or mariadb/backups. A trailing slash
+                          ''/'' is added if not provided.'
+                        type: string
+                      region:
+                        description: Region is the S3 region name to use.
+                        type: string
+                      secretAccessKeySecretKeyRef:
+                        description: AccessKeyIdSecretKeyRef is a reference to a Secret
+                          key containing the S3 secret key.
+                        properties:
+                          key:
+                            type: string
+                          name:
+                            default: ""
+                            type: string
+                        required:
+                        - key
+                        type: object
+                        x-kubernetes-map-type: atomic
+                      sessionTokenSecretKeyRef:
+                        description: SessionTokenSecretKeyRef is a reference to a
+                          Secret key containing the S3 session token.
+                        properties:
+                          key:
+                            type: string
+                          name:
+                            default: ""
+                            type: string
+                        required:
+                        - key
+                        type: object
+                        x-kubernetes-map-type: atomic
+                      tls:
+                        description: TLS provides the configuration required to establish
+                          TLS connections with S3.
+                        properties:
+                          caSecretKeyRef:
+                            description: |-
+                              CASecretKeyRef is a reference to a Secret key containing a CA bundle in PEM format used to establish TLS connections with S3.
+                              By default, the system trust chain will be used, but you can use this field to add more CAs to the bundle.
+                            properties:
+                              key:
+                                type: string
+                              name:
+                                default: ""
+                                type: string
+                            required:
+                            - key
+                            type: object
+                            x-kubernetes-map-type: atomic
+                          enabled:
+                            description: Enabled is a flag to enable TLS.
+                            type: boolean
+                        type: object
+                    required:
+                    - bucket
+                    - endpoint
+                    type: object
+                  volume:
+                    description: Volume is a Kubernetes volume specification.
+                    properties:
+                      csi:
+                        description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#csivolumesource-v1-core.'
+                        properties:
+                          driver:
+                            type: string
+                          fsType:
+                            type: string
+                          nodePublishSecretRef:
+                            description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#localobjectreference-v1-core.'
+                            properties:
+                              name:
+                                default: ""
+                                type: string
+                            type: object
+                          readOnly:
+                            type: boolean
+                          volumeAttributes:
+                            additionalProperties:
+                              type: string
+                            type: object
+                        required:
+                        - driver
+                        type: object
+                      emptyDir:
+                        description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#emptydirvolumesource-v1-core.'
+                        properties:
+                          medium:
+                            description: StorageMedium defines ways that storage can
+                              be allocated to a volume.
+                            type: string
+                          sizeLimit:
+                            anyOf:
+                            - type: integer
+                            - type: string
+                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                            x-kubernetes-int-or-string: true
+                        type: object
+                      hostPath:
+                        description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#hostpathvolumesource-v1-core'
+                        properties:
+                          path:
+                            type: string
+                          type:
+                            type: string
+                        required:
+                        - path
+                        type: object
+                      nfs:
+                        description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#nfsvolumesource-v1-core.'
+                        properties:
+                          path:
+                            type: string
+                          readOnly:
+                            type: boolean
+                          server:
+                            type: string
+                        required:
+                        - path
+                        - server
+                        type: object
+                      persistentVolumeClaim:
+                        description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#persistentvolumeclaimvolumesource-v1-core.'
+                        properties:
+                          claimName:
+                            type: string
+                          readOnly:
+                            type: boolean
+                        required:
+                        - claimName
+                        type: object
+                    type: object
+                  volumeSnapshot:
+                    description: VolumeSnapshot is a Kubernetes VolumeSnapshot specification.
+                    properties:
+                      metadata:
+                        description: Metadata is extra metadata to the added to the
+                          VolumeSnapshot objects.
+                        properties:
+                          annotations:
+                            additionalProperties:
+                              type: string
+                            description: Annotations to be added to children resources.
+                            type: object
+                          labels:
+                            additionalProperties:
+                              type: string
+                            description: Labels to be added to children resources.
+                            type: object
+                        type: object
+                      volumeSnapshotClassName:
+                        description: VolumeSnapshotClassName is the VolumeSnapshot
+                          class to be used to take snapshots.
+                        type: string
+                    required:
+                    - volumeSnapshotClassName
+                    type: object
+                type: object
+              successfulJobsHistoryLimit:
+                description: SuccessfulJobsHistoryLimit defines the maximum number
+                  of successful Jobs to be displayed. It defaults to 5.
+                format: int32
+                minimum: 0
+                type: integer
+              timeout:
                 description: |-
-                  TargetRecoveryTime is a RFC3339 (1970-01-01T00:00:00Z) date and time that defines the point in time recovery objective.
-                  It is used to determine the closest restoration source in time.
-                format: date-time
+                  Timeout defines the maximum duration of a PhysicalBackup job or snapshot.
+                  If this duration is exceeded, the job or snapshot is considered expired and is deleted by the operator.
+                  A new job or snapshot will then be created according to the schedule.
+                  It defaults to 1 hour.
                 type: string
               tolerations:
                 description: Tolerations to be used in the Pod.
@@ -838,89 +825,15 @@ spec:
                       type: string
                   type: object
                 type: array
-              volume:
-                description: Volume is a Kubernetes Volume object that contains a
-                  backup.
-                properties:
-                  csi:
-                    description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#csivolumesource-v1-core.'
-                    properties:
-                      driver:
-                        type: string
-                      fsType:
-                        type: string
-                      nodePublishSecretRef:
-                        description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#localobjectreference-v1-core.'
-                        properties:
-                          name:
-                            default: ""
-                            type: string
-                        type: object
-                      readOnly:
-                        type: boolean
-                      volumeAttributes:
-                        additionalProperties:
-                          type: string
-                        type: object
-                    required:
-                    - driver
-                    type: object
-                  emptyDir:
-                    description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#emptydirvolumesource-v1-core.'
-                    properties:
-                      medium:
-                        description: StorageMedium defines ways that storage can be
-                          allocated to a volume.
-                        type: string
-                      sizeLimit:
-                        anyOf:
-                        - type: integer
-                        - type: string
-                        pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                        x-kubernetes-int-or-string: true
-                    type: object
-                  hostPath:
-                    description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#hostpathvolumesource-v1-core'
-                    properties:
-                      path:
-                        type: string
-                      type:
-                        type: string
-                    required:
-                    - path
-                    type: object
-                  nfs:
-                    description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#nfsvolumesource-v1-core.'
-                    properties:
-                      path:
-                        type: string
-                      readOnly:
-                        type: boolean
-                      server:
-                        type: string
-                    required:
-                    - path
-                    - server
-                    type: object
-                  persistentVolumeClaim:
-                    description: 'Refer to the Kubernetes docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.33/#persistentvolumeclaimvolumesource-v1-core.'
-                    properties:
-                      claimName:
-                        type: string
-                      readOnly:
-                        type: boolean
-                    required:
-                    - claimName
-                    type: object
-                type: object
             required:
             - mariaDbRef
+            - storage
             type: object
           status:
-            description: RestoreStatus defines the observed state of restore
+            description: PhysicalBackupStatus defines the observed state of PhysicalBackup.
             properties:
               conditions:
-                description: Conditions for the Restore object.
+                description: Conditions for the PhysicalBackup object.
                 items:
                   description: Condition contains details for one aspect of the current
                     state of this API Resource.
@@ -976,6 +889,20 @@ spec:
                   - type
                   type: object
                 type: array
+              lastScheduleCheckTime:
+                description: LastScheduleCheckTime is the last time that the schedule
+                  was checked.
+                format: date-time
+                type: string
+              lastScheduleTime:
+                description: LastScheduleTime is the last time that a backup was scheduled.
+                format: date-time
+                type: string
+              nextScheduleTime:
+                description: NextScheduleTime is the next time that a backup will
+                  be scheduled.
+                format: date-time
+                type: string
             type: object
         type: object
     served: true
