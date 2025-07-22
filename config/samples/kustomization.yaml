@@ -1,12 +1,13 @@
 ## Append samples you want in your CSV to this file as resources ##
 resources:
-  - mariadboperator.yaml
   - backup.yaml
   - connection.yaml
   - database.yaml
   - grant.yaml
   - mariadb.yaml
+  - mariadboperator.yaml
   - maxscale.yaml
+  - physicalbackup.yaml
   - restore.yaml
   - sqljob.yaml
   - user.yaml
