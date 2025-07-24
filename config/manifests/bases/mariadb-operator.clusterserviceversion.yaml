@@ -72,6 +72,11 @@ spec:
         kind: MaxScale
         name: maxscales.k8s.mariadb.com
         version: v1alpha1
+      - description: Configures a physical backup
+        displayName: PhysicalBackup
+        kind: PhysicalBackup
+        name: physicalbackups.k8s.mariadb.com
+        version: v1alpha1
   description: |
     Install [`mariadb-operator`](https://github.com/mariadb-operator/mariadb-operator) via [OLM](https://olm.operatorframework.io/) using the [helm chart](https://artifacthub.io/packages/helm/mariadb-operator/mariadb-operator).
 

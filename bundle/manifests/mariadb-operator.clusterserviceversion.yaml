@@ -592,7 +592,7 @@ metadata:
     capabilities: Deep Insights
     categories: Database
     containerImage: ghcr.io/mariadb-operator/mariadb-operator-helm:25.8.0
-    createdAt: "2025-07-22T17:03:02Z"
+    createdAt: "2025-07-24T08:29:39Z"
     description: Run and operate MariaDB in a cloud native way
     features.operators.openshift.io/disconnected: "false"
     features.operators.openshift.io/fips-compliant: "false"
@@ -646,7 +646,9 @@ spec:
       kind: MaxScale
       name: maxscales.k8s.mariadb.com
       version: v1alpha1
-    - kind: PhysicalBackup
+    - description: Configures a physical backup
+      displayName: PhysicalBackup
+      kind: PhysicalBackup
       name: physicalbackups.k8s.mariadb.com
       version: v1alpha1
     - description: Restores a backup
