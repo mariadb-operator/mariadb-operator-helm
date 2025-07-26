@@ -1,5 +1,4 @@
 VERSION ?= 25.8.0
-HELM_VERSION ?= 25.08.0
 
 CHANNELS ?= alpha
 BUNDLE_CHANNELS := --channels=$(CHANNELS)
@@ -61,7 +60,7 @@ help: ## Display this help.
 
 .PHONY: sync-chart
 sync-chart: ## Sync helm chart.
-	@./hack/sync-chart.sh $(HELM_VERSION)
+	@./hack/sync-chart.sh $(VERSION)
 
 ##@ Build
 

@@ -2,29 +2,12 @@
 
 set -euo pipefail
 
-normalize_version() {
-    local version="$1"
-    IFS='.' read -r major minor patch <<< "$version"
-
-    # Remove leading zeroes safely by using arithmetic expansion
-    major=$((10#$major))
-    minor=$((10#$minor))
-    patch=$((10#$patch))
-
-    echo "$major.$minor.$patch"
-}
-
-INPUT_VERSION=$1
-VERSION=$(normalize_version "$INPUT_VERSION")
-
-echo "📦 Input version: '$INPUT_VERSION'"
-echo "📦 Normalized to semver-compliant version: '$VERSION'"
+VERSION=$1
 
 echo "📦 Bumping bundle to version '$VERSION'"
 
 echo "📦 Updating Makefile"
 sed -i "s/VERSION ?= .*/VERSION ?= $VERSION/g" Makefile
-sed -i "s/HELM_VERSION ?= .*/HELM_VERSION ?= $INPUT_VERSION/g" Makefile
 
 echo "📦 Generating bundle"
 make bundle
