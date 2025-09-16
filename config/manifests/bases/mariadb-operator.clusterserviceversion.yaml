@@ -77,6 +77,11 @@ spec:
         kind: PhysicalBackup
         name: physicalbackups.k8s.mariadb.com
         version: v1alpha1
+      - description: Configures an external MariaDB resources
+        displayName: ExternalMariaDB
+        kind: ExternalMariaDB
+        name: externalmariadbs.k8s.mariadb.com
+        version: v1alpha1
   description: |
     Install [`mariadb-operator`](https://github.com/mariadb-operator/mariadb-operator) via [OLM](https://olm.operatorframework.io/) using the [helm chart](https://artifacthub.io/packages/helm/mariadb-operator/mariadb-operator).
 

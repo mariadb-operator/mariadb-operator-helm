@@ -1,0 +1,15 @@
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: ExternalMariaDB
+metadata:
+  name: external-mariadb
+spec:
+  host: mariadb.default.svc.cluster.local
+  port: 3306
+  username: root
+  passwordSecretKeyRef:
+    name: mariadb
+    key: password
+  connection:
+    secretName: external-mariadb
+    healthCheck:
+      interval: 5s

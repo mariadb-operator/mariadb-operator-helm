@@ -3,6 +3,7 @@ resources:
   - backup.yaml
   - connection.yaml
   - database.yaml
+  - external_mariadb.yaml
   - grant.yaml
   - mariadb.yaml
   - mariadboperator.yaml

@@ -592,7 +592,7 @@ metadata:
     capabilities: Deep Insights
     categories: Database
     containerImage: ghcr.io/mariadb-operator/mariadb-operator-helm:25.8.3
-    createdAt: "2025-08-08T12:14:12Z"
+    createdAt: "2025-09-16T17:34:47Z"
     description: Run and operate MariaDB in a cloud native way
     features.operators.openshift.io/disconnected: "false"
     features.operators.openshift.io/fips-compliant: "false"
