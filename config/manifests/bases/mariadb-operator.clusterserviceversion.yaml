@@ -77,7 +77,7 @@ spec:
         kind: PhysicalBackup
         name: physicalbackups.k8s.mariadb.com
         version: v1alpha1
-      - description: Configures an external MariaDB resources
+      - description: Configures an external MariaDB resource
         displayName: ExternalMariaDB
         kind: ExternalMariaDB
         name: externalmariadbs.k8s.mariadb.com
