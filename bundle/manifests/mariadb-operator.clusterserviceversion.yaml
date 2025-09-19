@@ -257,6 +257,28 @@ metadata:
         },
         {
           "apiVersion": "k8s.mariadb.com/v1alpha1",
+          "kind": "ExternalMariaDB",
+          "metadata": {
+            "name": "external-mariadb"
+          },
+          "spec": {
+            "connection": {
+              "healthCheck": {
+                "interval": "5s"
+              },
+              "secretName": "external-mariadb"
+            },
+            "host": "mariadb.default.svc.cluster.local",
+            "passwordSecretKeyRef": {
+              "key": "password",
+              "name": "mariadb"
+            },
+            "port": 3306,
+            "username": "root"
+          }
+        },
+        {
+          "apiVersion": "k8s.mariadb.com/v1alpha1",
           "kind": "Grant",
           "metadata": {
             "name": "grant"
@@ -591,8 +613,8 @@ metadata:
       ]
     capabilities: Deep Insights
     categories: Database
-    containerImage: ghcr.io/mariadb-operator/mariadb-operator-helm:25.8.3
-    createdAt: "2025-09-16T17:34:47Z"
+    containerImage: ghcr.io/mariadb-operator/mariadb-operator-helm:25.8.4
+    createdAt: "2025-09-19T13:24:35Z"
     description: Run and operate MariaDB in a cloud native way
     features.operators.openshift.io/disconnected: "false"
     features.operators.openshift.io/fips-compliant: "false"
@@ -605,7 +627,7 @@ metadata:
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
     repository: https://github.com/mariadb-operator/mariadb-operator
     support: mariadb-operator
-  name: mariadb-operator.v25.8.3
+  name: mariadb-operator.v25.8.4
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -625,6 +647,11 @@ spec:
       displayName: Database
       kind: Database
       name: databases.k8s.mariadb.com
+      version: v1alpha1
+    - description: Configures an external MariaDB resources
+      displayName: ExternalMariaDB
+      kind: ExternalMariaDB
+      name: externalmariadbs.k8s.mariadb.com
       version: v1alpha1
     - description: Grants permissions to an user in a database
       displayName: Grant
@@ -852,7 +879,7 @@ spec:
               - args:
                 - --leader-elect
                 - --leader-election-id=helm-operator
-                image: ghcr.io/mariadb-operator/mariadb-operator-helm:25.8.3
+                image: ghcr.io/mariadb-operator/mariadb-operator-helm:25.8.4
                 livenessProbe:
                   httpGet:
                     path: /healthz
@@ -944,4 +971,4 @@ spec:
   provider:
     name: mariadb-operator
     url: https://github.com/mariadb-operator/mariadb-operator
-  version: 25.8.3
+  version: 25.8.4

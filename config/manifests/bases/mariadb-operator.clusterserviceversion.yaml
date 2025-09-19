@@ -5,7 +5,7 @@ metadata:
     alm-examples: '[]'
     capabilities: Deep Insights
     categories: Database
-    containerImage: ghcr.io/mariadb-operator/mariadb-operator-helm:25.8.3
+    containerImage: ghcr.io/mariadb-operator/mariadb-operator-helm:25.8.4
     description: Run and operate MariaDB in a cloud native way
     features.operators.openshift.io/disconnected: "false"
     features.operators.openshift.io/fips-compliant: "false"

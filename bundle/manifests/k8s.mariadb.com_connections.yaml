@@ -77,6 +77,9 @@ spec:
                 description: MariaDBRef is a reference to the MariaDB to connect to.
                   Either MariaDBRef or MaxScaleRef must be provided.
                 properties:
+                  kind:
+                    description: Kind of the referent.
+                    type: string
                   name:
                     type: string
                   namespace:

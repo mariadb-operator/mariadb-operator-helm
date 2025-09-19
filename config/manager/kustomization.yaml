@@ -5,4 +5,4 @@ kind: Kustomization
 images:
 - name: controller
   newName: ghcr.io/mariadb-operator/mariadb-operator-helm
-  newTag: 25.8.3
+  newTag: 25.8.4
