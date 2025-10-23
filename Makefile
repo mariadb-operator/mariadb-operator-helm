@@ -1,4 +1,4 @@
-VERSION ?= 25.10.0
+VERSION ?= 25.10.1
 
 CHANNELS ?= alpha
 BUNDLE_CHANNELS := --channels=$(CHANNELS)
@@ -251,7 +251,7 @@ $(LOCALBIN):
 
 .PHONY: kind
 KIND = ./bin/kind
-KIND_VERSION ?= 25.10.0
+KIND_VERSION ?= 25.10.1
 kind: ## Download kind locally if necessary.
 ifeq (,$(wildcard $(KIND)))
 ifeq (,$(shell which kind 2>/dev/null))
