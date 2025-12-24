@@ -613,8 +613,8 @@ metadata:
       ]
     capabilities: Deep Insights
     categories: Database
-    containerImage: ghcr.io/mariadb-operator/mariadb-operator-helm:25.10.2
-    createdAt: "2025-10-28T11:30:10Z"
+    containerImage: ghcr.io/mariadb-operator/mariadb-operator-helm:25.10.3
+    createdAt: "2025-12-24T12:25:03Z"
     description: Run and operate MariaDB in a cloud native way
     features.operators.openshift.io/disconnected: "false"
     features.operators.openshift.io/fips-compliant: "false"
@@ -627,7 +627,7 @@ metadata:
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
     repository: https://github.com/mariadb-operator/mariadb-operator
     support: mariadb-operator
-  name: mariadb-operator.v25.10.2
+  name: mariadb-operator.v25.10.3
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -879,7 +879,7 @@ spec:
               - args:
                 - --leader-elect
                 - --leader-election-id=helm-operator
-                image: ghcr.io/mariadb-operator/mariadb-operator-helm:25.10.2
+                image: ghcr.io/mariadb-operator/mariadb-operator-helm:25.10.3
                 livenessProbe:
                   httpGet:
                     path: /healthz
@@ -971,4 +971,4 @@ spec:
   provider:
     name: mariadb-operator
     url: https://github.com/mariadb-operator/mariadb-operator
-  version: 25.10.2
+  version: 25.10.3
