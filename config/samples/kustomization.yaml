@@ -9,6 +9,7 @@ resources:
   - mariadboperator.yaml
   - maxscale.yaml
   - physicalbackup.yaml
+  - pointintimerecovery.yaml
   - restore.yaml
   - sqljob.yaml
   - user.yaml

@@ -82,6 +82,11 @@ spec:
         kind: ExternalMariaDB
         name: externalmariadbs.k8s.mariadb.com
         version: v1alpha1
+      - description: Configures a PointInTimeRecovery resource
+        displayName: PointInTimeRecovery
+        kind: PointInTimeRecovery
+        name: pointintimerecoveries.k8s.mariadb.com
+        version: v1alpha1
   description: |
     Install [`mariadb-operator`](https://github.com/mariadb-operator/mariadb-operator) via [OLM](https://olm.operatorframework.io/) using the [helm chart](https://artifacthub.io/packages/helm/mariadb-operator/mariadb-operator).
 
