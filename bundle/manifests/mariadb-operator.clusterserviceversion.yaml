@@ -536,6 +536,44 @@ metadata:
         },
         {
           "apiVersion": "k8s.mariadb.com/v1alpha1",
+          "kind": "PointInTimeRecovery",
+          "metadata": {
+            "name": "pitr"
+          },
+          "spec": {
+            "archiveTimeout": "1h",
+            "compression": "gzip",
+            "physicalBackupRef": {
+              "name": "physicalbackup-daily"
+            },
+            "storage": {
+              "s3": {
+                "accessKeyIdSecretKeyRef": {
+                  "key": "access-key-id",
+                  "name": "minio"
+                },
+                "bucket": "binlogs",
+                "endpoint": "minio.minio.svc.cluster.local:9000",
+                "prefix": "mariadb",
+                "region": "us-east-1",
+                "secretAccessKeySecretKeyRef": {
+                  "key": "secret-access-key",
+                  "name": "minio"
+                },
+                "tls": {
+                  "caSecretKeyRef": {
+                    "key": "ca.crt",
+                    "name": "minio-ca"
+                  },
+                  "enabled": true
+                }
+              }
+            },
+            "strictMode": false
+          }
+        },
+        {
+          "apiVersion": "k8s.mariadb.com/v1alpha1",
           "kind": "Restore",
           "metadata": {
             "name": "restore"
@@ -613,8 +651,8 @@ metadata:
       ]
     capabilities: Deep Insights
     categories: Database
-    containerImage: ghcr.io/mariadb-operator/mariadb-operator-helm:25.10.4
-    createdAt: "2026-03-11T14:51:36Z"
+    containerImage: ghcr.io/mariadb-operator/mariadb-operator-helm:26.3.0
+    createdAt: "2026-03-13T15:52:51Z"
     description: Run and operate MariaDB in a cloud native way
     features.operators.openshift.io/disconnected: "false"
     features.operators.openshift.io/fips-compliant: "false"
@@ -627,7 +665,7 @@ metadata:
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
     repository: https://github.com/mariadb-operator/mariadb-operator
     support: mariadb-operator
-  name: mariadb-operator.v25.10.4
+  name: mariadb-operator.v26.3.0
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -677,6 +715,11 @@ spec:
       displayName: PhysicalBackup
       kind: PhysicalBackup
       name: physicalbackups.k8s.mariadb.com
+      version: v1alpha1
+    - description: Configures a PointInTimeRecovery resource
+      displayName: PointInTimeRecovery
+      kind: PointInTimeRecovery
+      name: pointintimerecoveries.k8s.mariadb.com
       version: v1alpha1
     - description: Restores a backup
       displayName: Restore
@@ -879,7 +922,7 @@ spec:
               - args:
                 - --leader-elect
                 - --leader-election-id=helm-operator
-                image: ghcr.io/mariadb-operator/mariadb-operator-helm:25.10.4
+                image: ghcr.io/mariadb-operator/mariadb-operator-helm:26.3.0
                 livenessProbe:
                   httpGet:
                     path: /healthz
@@ -971,4 +1014,4 @@ spec:
   provider:
     name: mariadb-operator
     url: https://github.com/mariadb-operator/mariadb-operator
-  version: 25.10.4
+  version: 26.3.0
