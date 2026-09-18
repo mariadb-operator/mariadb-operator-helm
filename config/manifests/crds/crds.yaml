@@ -298,7 +298,15 @@ spec:
                 - none
                 - bzip2
                 - gzip
+                - zstd
                 type: string
+              compressionThreads:
+                description: |-
+                  CompressionThreads defines the number of CPU threads to use for compression. It only has effect when compression is set to zstd.
+                  Defaults to all available CPUs.
+                format: int32
+                minimum: 1
+                type: integer
               databases:
                 description: Databases defines the logical databases to be backed
                   up. If not provided, all databases are backed up.
@@ -7557,6 +7565,19 @@ spec:
                       It requires semi-synchronous replication to be enabled.
                       See: https://mariadb.com/docs/server/ha-and-performance/standard-replication/semisynchronous-replication#rpl_semi_sync_master_timeout
                     type: string
+                  semiSyncBootAsReplica:
+                    description: |-
+                      SemiSyncBootAsReplica determines whether a node boots read-only and with primary-side semi-synchronous replication
+                      disabled, so that it is never writable while it is unable to require a replica acknowledgement.
+                      Both read_only and rpl_semi_sync_master_enabled are dynamic global variables that do not survive a restart, so setting
+                      this to true renders them as ON and OFF respectively in the configuration file. The operator then enables
+                      primary-side semi-synchronous replication in the current primary and hands write traffic back to it, in this order.
+                      Setting it to false renders rpl_semi_sync_master_enabled=ON and omits read_only, so every node boots as a writable
+                      semi-synchronous primary.
+                      See: https://mariadb.com/docs/maxscale/mariadb-maxscale-tutorials/failure-tolerant-replication-and-failover#enable-semi-synchronous-replication
+                      It requires semi-synchronous replication to be enabled.
+                      It is disabled by default.
+                    type: boolean
                   semiSyncEnabled:
                     description: |-
                       SemiSyncEnabled determines whether semi-synchronous replication is enabled.
@@ -7564,6 +7585,15 @@ spec:
                       before committing the transaction back to the client.
                       See: https://mariadb.com/docs/server/ha-and-performance/standard-replication/semisynchronous-replication
                       It is enabled by default
+                    type: boolean
+                  semiSyncWaitNoSlave:
+                    description: |-
+                      SemiSyncWaitNoSlave determines whether the primary waits for the semi-synchronous ACK timeout to expire when it has
+                      no semi-synchronous replicas connected. Disabling it makes it fall back to asynchronous commit immediately instead of
+                      stalling for the whole semiSyncAckTimeout.
+                      It requires semi-synchronous replication to be enabled.
+                      It is enabled by default by the server.
+                      See: https://mariadb.com/docs/server/ha-and-performance/standard-replication/semisynchronous-replication#rpl_semi_sync_master_wait_no_slave
                     type: boolean
                   semiSyncWaitPoint:
                     description: |-
@@ -11838,7 +11868,15 @@ spec:
                 - none
                 - bzip2
                 - gzip
+                - zstd
                 type: string
+              compressionThreads:
+                description: |-
+                  CompressionThreads defines the number of CPU threads to use for compression. It only has effect when compression is set to zstd.
+                  Defaults to all available CPUs.
+                format: int32
+                minimum: 1
+                type: integer
               failedJobsHistoryLimit:
                 description: FailedJobsHistoryLimit defines the maximum number of
                   failed Jobs to be displayed. It defaults to 5.
@@ -12867,7 +12905,15 @@ spec:
                 - none
                 - bzip2
                 - gzip
+                - zstd
                 type: string
+              compressionThreads:
+                description: |-
+                  CompressionThreads defines the number of CPU threads to use for compression. It only has effect when compression is set to zstd.
+                  Defaults to all available CPUs.
+                format: int32
+                minimum: 1
+                type: integer
               physicalBackupRef:
                 description: PhysicalBackupRef is a reference to a PhysicalBackup
                   object that will be used as base backup.
